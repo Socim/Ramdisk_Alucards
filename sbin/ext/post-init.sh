@@ -187,7 +187,7 @@ chmod 666 /tmp/uci_done;
 	sleep 5;
 
 	# stop uci.sh from running all the PUSH Buttons in stweaks on boot
-	$BB mount -o remount,rw rootfs;
+	ROOT_RW;
 	$BB chmod -R 777 /tmp/;
 	$BB chown -R root:system /res/customconfig/actions/;
 	$BB chmod -R 6755 /res/customconfig/actions/;
@@ -211,10 +211,8 @@ chmod 666 /tmp/uci_done;
 	# change USB mode MTP or Mass Storage
 	$BB sh /res/uci.sh usb-mode ${usb_mode};
 
-	# update cpu tuning after profiles load
+	# update cpu and hotplug tuning after profiles load
 	$BB sh /sbin/ext/cortexbrain-tune.sh apply_cpu update > /dev/null;
-	# update hotplug tuning after profiles load
-	$BB sh /sbin/ext/cortexbrain-tune.sh apply_hotplug changes > /dev/null;
 	$BB rm -f /data/.alucard/booting;
 
 	# ###############################################################
@@ -228,5 +226,5 @@ chmod 666 /tmp/uci_done;
 	$BB sh /res/uci.sh oom_config_screen_on $oom_config_screen_on;
 	$BB sh /res/uci.sh oom_config_screen_off $oom_config_screen_off;
 
-	/sbin/ext/cortexbrain-tune.sh automount_rootfs rw > /dev/null;
+	$BB sh /sbin/ext/cortexbrain-tune.sh automount_rootfs rw > /dev/null;
 )&

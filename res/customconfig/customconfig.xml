@@ -13,7 +13,9 @@
 
 		<seekBar description="Maximum CPU speed while GPS Using. (Default: 1890.000 kHz)." name="scaling_max_gps_freq" action="genericfreq /sys/module/ssp_i2c/parameters/scaling_max_gps_freq" unit="kHz" min="810000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Maximum DEEP SLEEP CPU speed. (Default: 810.000 kHz). Depends on CortexBrain-Background-Process !!!" name="scaling_max_suspend_freq" action="generic_cortex /tmp/scaling_max_suspend_freq" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Maximum DEEP SLEEP CPU speed. (Default: 1134.000 kHz). Depends on CortexBrain-Background-Process !!!" name="scaling_max_suspend_freq" action="generic_cortex /tmp/scaling_max_suspend_freq" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+
+		<seekBar description="Maximum ON CALL CPU speed. (Default: 810.000 kHz). Depends on CortexBrain-Background-Process !!!" name="scaling_max_oncall_freq" action="generic_cortex /tmp/scaling_max_oncall_freq" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
 
 		<seekBar description="Minimum DEEP SLEEP CPU speed. (Default: 378.000 kHz). Depends on CortexBrain-Background-Process !!!" name="scaling_min_suspend_freq" action="generic_cortex /tmp/scaling_min_suspend_freq" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
 
@@ -215,7 +217,7 @@
 
 		<spinner description="Here you can set the cpu hotplugging system. (Default: ALUCARD HOTPLUG)" name="cpu hotplugging" action="generic_cortex /tmp/cpuhotplugging">
 			<spinnerItem name="MSM MPDECISION" value="1"/> 
-			<spinnerItem name="INTELLIPLUG" value="2"/> 
+			<!--spinnerItem name="INTELLIPLUG" value="2"/--> 
 			<spinnerItem name="ALUCARD HOTPLUG" value="3"/> 
 		</spinner>
 
@@ -223,14 +225,14 @@
 
 	</settingsPane>
 
-	<settingsPane description="Here you can tune Intelliplug" name="Intelliplug Tuning">
+	<!--settingsPane description="Here you can tune Intelliplug" name="Intelliplug Tuning">
 
 		<spinner description="Here you can set eco mode tweaks. (Default: Disabled)" name="eco_mode_active" action="generic /sys/module/intelli_plug/parameters/eco_mode_active">
 			<spinnerItem name="Enabled" value="1"/> 
 			<spinnerItem name="Disabled" value="0"/> 
 		</spinner>
 
-	</settingsPane>
+	</settingsPane-->
 
 	<settingsPane description="Here you can tune alucard hotplug" name="alucard hotplug Tuning">
 
@@ -284,14 +286,14 @@
 
 <settingsTab name="CPU-HOTPLUGGING (SLEEP)">
 
-	<settingsPane description="Here you can tune Intelliplug" name="Intelliplug Tuning">
+	<!--settingsPane description="Here you can tune Intelliplug" name="Intelliplug Tuning">
 
 		<spinner description="Here you can set eco mode tweaks. (Default: Enabled)" name="eco_mode_active_sleep" action="generic_cortex /tmp/eco_mode_active_sleep">
 			<spinnerItem name="Enabled" value="1"/> 
 			<spinnerItem name="Disabled" value="0"/> 
 		</spinner>
 
-	</settingsPane>
+	</settingsPane-->
 
 	<settingsPane description="Here you can tune alucard hotplug for sleeping" name="alucard hotplug Tuning">
 
@@ -383,14 +385,15 @@
 
 	<settingsPane description="Here you can tune DVFS Touch frequency" name="Touch Frequency">
 
-		<spinner description="Here you can enable or disable dvfs touch frequency. (Default: Enabled)" name="dvfs_enable" action="generic /sys/kernel/dvfs_touch_if/dvfs_enable">
-			<spinnerItem name="Enabled" value="1"/> 
-			<spinnerItem name="Disabled" value="0"/> 
+		<spinner description="Here you can enable or disable dvfs touch frequency. (Default: Dual)" name="dvfs_boost_mode" action="generic /sys/kernel/dvfs_touch_if/dvfs_boost_mode">
+			<spinnerItem name="None" value="0"/>
+			<spinnerItem name="Single" value="1"/>
+			<spinnerItem name="Dual" value="2"/>
 		</spinner>
 
 		<seekBar description="Coming soon. From 810.000 kHz to 1.890.000 kHz! (Default: 1.134.000 kHz)" name="dvfs_min_touch_limit" action="genericfreq /sys/kernel/dvfs_touch_if/dvfs_min_touch_limit" unit="kHz" min="810000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Coming soon. From 702.000 kHz to 1.458.000 kHz! (Default: 810.000 kHz)" name="dvfs_min_touch_limit_second" action="genericfreq /sys/kernel/dvfs_touch_if/dvfs_min_touch_limit_second" unit="kHz" min="486000" reversed="false" step="108000" max="1458000"/>
+		<seekBar description="Coming soon. From 486.000 kHz to 1.458.000 kHz! (Default: 810.000 kHz)" name="dvfs_min_touch_limit_second" action="genericfreq /sys/kernel/dvfs_touch_if/dvfs_min_touch_limit_second" unit="kHz" min="486000" reversed="false" step="108000" max="1458000"/>
 
 	</settingsPane>
 
@@ -597,21 +600,11 @@
 
 		<seekBar description="Here you can set a delay before WIFI is forced to OFF when screen is turned off. !!! Depends on CortexBrain-Auto-Wifi !!!" name="WIFI Turn Off Delay (in sec)" action="generic_cortex /tmp/cortexbrain_auto_tweak_wifi_sleep_delay" unit="sec" min="0" reversed="false" step="30" max="300"/>
 
-		<checkbox description="Enable or Disable ICMP only Firewall-Tweaks (reboot needed)." name="Firewall-Tweaks" action="generic_cortex /tmp/cortexbrain_firewall" label="Firewall-Tweaks"/>
-
-		<checkbox description="Enable or Disable TCP-Tweaks (reboot needed)." name="TCP-Tweaks" action="generic_cortex /tmp/cortexbrain_tcp" label="TCP-Tweaks"/>
-
-		<checkbox description="Enable or Disable TCP-RAM-Tweaks (reboot needed)." name="TCP-RAM-Tweaks" action="generic_cortex /tmp/cortexbrain_tcp_ram" label="TCP-RAM-Tweaks"/>
-
-		<checkbox description="Enable or Disable IPv6 Network. !!! Depends on CortexBrain-Background-Process !!!" name="IPv6 Tweaks" action="generic_cortex /tmp/cortexbrain_ipv6" label="IPv6"/>
-
 		<checkbox description="Enable or Disable CPU-Tweaks (reboot needed)." name="CPU-Tweaks" action="generic_cortex /tmp/cortexbrain_cpu" label="CPU-Tweaks"/>
 
 		<checkbox description="Enable or Disable Memory-Tweaks (reboot needed)." name="Memory-Tweaks" action="generic_cortex /tmp/cortexbrain_memory" label="Memory-Tweaks"/>
 
 		<checkbox description="Enable or Disable Battery-Tweaks (reboot needed)." name="Battery-Tweaks" action="generic_cortex /tmp/cortexbrain_battery" label="Battery-Tweaks"/>
-
-		<checkbox description="Enable or Disable Kernel-Tweaks (reboot needed)." name="Kernel-Tweaks" action="generic_cortex /tmp/cortexbrain_kernel_tweaks" label="Kernel-Tweaks"/>
 
 		<checkbox description="Enable or Disable IO-Tweaks (reboot needed)." name="IO-Tweaks" action="generic_cortex /tmp/cortexbrain_io" label="IO-Tweaks"/>
 
