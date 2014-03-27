@@ -222,11 +222,11 @@ CPU_HOTPLUG_TWEAKS()
 	local msm_value_tmp=`pgrep -f "/system/bin/mpdecision" | wc -l`;
 
 	# Intelli plug
-	#local intelli_plug_active_tmp="/sys/module/intelli_plug/parameters/intelli_plug_active";
-	#if [ ! -e $intelli_plug_active_tmp ]; then
-	#	intelli_plug_active_tmp="/dev/null";
-	#fi;
-	#local intelli_value_tmp=`cat /sys/module/intelli_plug/parameters/intelli_plug_active`;
+	local intelli_plug_active_tmp="/sys/module/intelli_plug/parameters/intelli_plug_active";
+	if [ ! -e $intelli_plug_active_tmp ]; then
+		intelli_plug_active_tmp="/dev/null";
+	fi;
+	local intelli_value_tmp=`cat /sys/module/intelli_plug/parameters/intelli_plug_active`;
 
 	# Alucard hotplug
 	local hotplug_enable_tmp="/sys/kernel/alucard_hotplug/hotplug_enable";
@@ -345,17 +345,22 @@ CPU_HOTPLUG_TWEAKS()
 		maxcoreslimit_tmp="/dev/null";
 	fi;
 
-	#local eco_mode_active_tmp="/sys/module/intelli_plug/parameters/eco_mode_active";
-	#if [ ! -e $eco_mode_active_tmp ]; then
-	#	eco_mode_active_tmp="/dev/null";
-	#fi;
+	local eco_mode_active_tmp="/sys/module/intelli_plug/parameters/eco_mode_active";
+	if [ ! -e $eco_mode_active_tmp ]; then
+		eco_mode_active_tmp="/dev/null";
+	fi;
+
+	local strict_mode_active_tmp="/sys/module/intelli_plug/parameters/strict_mode_active";
+	if [ ! -e $strict_mode_active_tmp ]; then
+		strict_mode_active_tmp="/dev/null";
+	fi;
 
 	if [ "$cpuhotplugging" -eq "1" ]; then
 
 		#disable intelli_plug
-		#if [ "$intelli_value_tmp" -eq "1" ]; then
-		#	echo "0" > $intelli_plug_active_tmp;
-		#fi;
+		if [ "$intelli_value_tmp" -eq "1" ]; then
+			echo "0" > $intelli_plug_active_tmp;
+		fi;
 
 		#disable alucard_hotplug
 		if [ "$alucard_value_tmp" -eq "1" ]; then
@@ -368,29 +373,31 @@ CPU_HOTPLUG_TWEAKS()
 		fi;
 
 		log -p i -t $FILE_NAME "*** MSM_MPDECISION ***: enabled";
-	#elif [ "$cpuhotplugging" -eq "2" ]; then
+	elif [ "$cpuhotplugging" -eq "2" ]; then
 		#disable MSM MPDecision
-	#	if [ "$msm_value_tmp" -eq "1" ]; then
-	#		stop $msm_mpdecision_tmp;
-	#	fi;
+		if [ "$msm_value_tmp" -eq "1" ]; then
+			stop $msm_mpdecision_tmp;
+		fi;
 
 		#disable alucard_hotplug
-	#	if [ "$alucard_value_tmp" -eq "1" ]; then
-	#		echo "0" > $hotplug_enable_tmp;
-	#	fi;
+		if [ "$alucard_value_tmp" -eq "1" ]; then
+			echo "0" > $hotplug_enable_tmp;
+		fi;
 
 		#enable intelli_plug
-	#	if [ "$intelli_value_tmp" -eq "0" ]; then
-	#		echo "1" > $intelli_plug_active_tmp;
-	#	fi;
+		if [ "$intelli_value_tmp" -eq "0" ]; then
+			echo "1" > $intelli_plug_active_tmp;
+		fi;
 
 		# sleep-settings
-	#	if [ "$state" == "sleep" ]; then
-	#		echo "$eco_mode_active_sleep" > $eco_mode_active_tmp;
+		if [ "$state" == "sleep" ]; then
+			echo "$eco_mode_active_sleep" > $eco_mode_active_tmp;
+			echo "$strict_mode_active_sleep" > $strict_mode_active_tmp;
 		# awake-settings
-	#	elif [ "$state" == "awake" ]; then
-	#		echo "$eco_mode_active" > $eco_mode_active_tmp;
-	#	fi;
+		elif [ "$state" == "awake" ]; then
+			echo "$eco_mode_active" > $eco_mode_active_tmp;
+			echo "$strict_mode_active" > $strict_mode_active_tmp;
+		fi;
 
 	#	log -p i -t $FILE_NAME "*** INTELLI_PLUG ***: enabled";
 	elif [ "$cpuhotplugging" -eq "3" ]; then
@@ -400,9 +407,9 @@ CPU_HOTPLUG_TWEAKS()
 		fi;
 
 		#disable intelli_plug
-		#if [ "$intelli_value_tmp" -eq "1" ]; then
-		#	echo "0" > $intelli_plug_active_tmp;
-		#fi;
+		if [ "$intelli_value_tmp" -eq "1" ]; then
+			echo "0" > $intelli_plug_active_tmp;
+		fi;
 
 		#enable alucard_hotplug
 		if [ "$alucard_value_tmp" -eq "0" ]; then
@@ -664,14 +671,8 @@ fi;
 MEMORY_TWEAKS()
 {
 	if [ "$cortexbrain_memory" == "on" ]; then
-		echo "32 32" > /proc/sys/vm/lowmem_reserve_ratio;
 		echo "$dirty_background_ratio" > /proc/sys/vm/dirty_background_ratio; # default: 10
 		echo "$dirty_ratio" > /proc/sys/vm/dirty_ratio; # default: 20
-		echo "4" > /proc/sys/vm/min_free_order_shift; # default: 4
-		echo "1" > /proc/sys/vm/overcommit_memory; # default: 1
-		echo "50" > /proc/sys/vm/overcommit_ratio; # default: 50
-		echo "3" > /proc/sys/vm/page-cluster; # default: 3
-		echo "8192" > /proc/sys/vm/min_free_kbytes;
 
 		log -p i -t $FILE_NAME "*** MEMORY_TWEAKS ***: enabled";
 
@@ -853,11 +854,22 @@ CENTRAL_CPU_FREQ()
 
 	local tmp_max_freq=`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus`;
 	local tmp_min_freq=`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_all_cpus`;
+	# Alucard hotplug
+	local alucard_value_tmp=`cat /sys/kernel/alucard_hotplug/hotplug_enable`;
+	local maxcoreslimit_tmp="/sys/kernel/alucard_hotplug/maxcoreslimit";
 
 	if [ "$cortexbrain_cpu" == "on" ]; then
 		MAX_FREQ=`echo $scaling_max_freq_all_cpus`;
-
-		if [ "$state" == "awake_normal" ]; then
+		if [ "$state" == "wake_boost" ] && [ "$wakeup_boost" -ge "0" ]; then
+			echo "$MAX_FREQ" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus;
+			echo "$MAX_FREQ" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_all_cpus;
+			if [ "$alucard_value_tmp" -eq "1" ]; then
+				if [ ! -e $maxcoreslimit_tmp ]; then
+					maxcoreslimit_tmp="/dev/null";
+				fi;
+				echo "$maxcoreslimit" > $maxcoreslimit_tmp;
+			fi;
+		elif [ "$state" == "awake_normal" ]; then
 			echo "$MAX_FREQ" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus;
 			echo "$scaling_min_freq_all_cpus" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_all_cpus;
 		elif [ "$state" == "standby_freq" ]; then
@@ -874,6 +886,27 @@ CENTRAL_CPU_FREQ()
 		log -p i -t $FILE_NAME "*** CENTRAL_CPU_FREQ: $state ***: done";
 	else
 		log -p i -t $FILE_NAME "*** CENTRAL_CPU_FREQ: NOT CHANGED ***: done";
+	fi;
+}
+
+# boost CPU power for fast and no lag wakeup
+MEGA_BOOST_CPU_TWEAKS()
+{
+	if [ "$cortexbrain_cpu" == "on" ]; then
+		CENTRAL_CPU_FREQ "wake_boost";
+
+		log -p i -t "$FILE_NAME" "*** MEGA_BOOST_CPU_TWEAKS ***";
+	else
+		echo "$scaling_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus;
+	fi;
+}
+
+BOOST_DELAY()
+{
+	# check if ROM booting now, then don't wait - creation and deletion of $DATA_DIR/booting @> /sbin/ext/post-init.sh
+	if [ "$wakeup_boost" -gt "0" ] && [ ! -e "$DATA_DIR"/booting ]; then
+		log -p i -t "$FILE_NAME" "*** BOOST_DELAY: ${wakeup_boost}sec ***";
+		sleep "$wakeup_boost";
 	fi;
 }
 
@@ -1046,15 +1079,23 @@ AWAKE_MODE()
 		if [ "$WAS_IN_SLEEP_MODE" -eq "1" ] && [ "$USB_POWER" -eq "0" ]; then
 			CPU_GOVERNOR "awake";
 			CPU_GOV_TWEAKS "awake";
+			MEGA_BOOST_CPU_TWEAKS;
 			LOGGER "awake";
-			NET "awake";
+			# NET "awake";
 			MOBILE_DATA "awake";
 			WIFI "awake";
 			IO_SCHEDULER "awake";
+
+			BOOST_DELAY;
+
 			CENTRAL_CPU_FREQ "awake_normal";
 			MOUNT_FIX;
 		else
 			# Was powered by USB, and half sleep
+			MEGA_BOOST_CPU_TWEAKS;
+
+			BOOST_DELAY;
+
 			CENTRAL_CPU_FREQ "awake_normal";
 			MOUNT_FIX;
 			USB_POWER=0;
@@ -1106,7 +1147,7 @@ SLEEP_MODE()
 			CENTRAL_CPU_FREQ "sleep_freq";
 			CPU_GOV_TWEAKS "sleep";
 			IO_SCHEDULER "sleep";
-			NET "sleep";
+			# NET "sleep";
 			WIFI "sleep";
 			BATTERY_TWEAKS;
 			MOBILE_DATA "sleep";

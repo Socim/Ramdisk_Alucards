@@ -9,6 +9,12 @@
 
 	</settingsPane>
 
+	<settingsPane description="Wake up Booster Control. Here you can set the wakeup boost delay." name="Boost CPU Control">
+
+		<seekBar description="Here you can change Cortex Wakeup Boost. It will give you full CPU power but only for the set time. After that time, all is set back to normal. !!! Depends on CortexBrain-Background-Process !!!. When the value is -1, frequency changing is completely deactivated !." name="Cortex Wakeup Boost" action="generic_cortex /tmp/wakeup_boost" unit="Sec" min="-1" reversed="false" step="1" max="15"/>
+
+	</settingsPane>
+
 	<settingsPane description="Here you can set all the settings for power save!" name="CPU Idle and Power Settings">
 
 		<seekBar description="Maximum CPU speed while GPS Using. (Default: 1890.000 kHz)." name="scaling_max_gps_freq" action="genericfreq /sys/module/ssp_i2c/parameters/scaling_max_gps_freq" unit="kHz" min="810000" reversed="false" step="108000" max="1890000"/>
@@ -217,7 +223,7 @@
 
 		<spinner description="Here you can set the cpu hotplugging system. (Default: ALUCARD HOTPLUG)" name="cpu hotplugging" action="generic_cortex /tmp/cpuhotplugging">
 			<spinnerItem name="MSM MPDECISION" value="1"/> 
-			<!--spinnerItem name="INTELLIPLUG" value="2"/--> 
+			<spinnerItem name="INTELLIPLUG" value="2"/> 
 			<spinnerItem name="ALUCARD HOTPLUG" value="3"/> 
 		</spinner>
 
@@ -225,14 +231,19 @@
 
 	</settingsPane>
 
-	<!--settingsPane description="Here you can tune Intelliplug" name="Intelliplug Tuning">
+	<settingsPane description="Here you can tune Intelliplug" name="Intelliplug Tuning">
 
 		<spinner description="Here you can set eco mode tweaks. (Default: Disabled)" name="eco_mode_active" action="generic /sys/module/intelli_plug/parameters/eco_mode_active">
 			<spinnerItem name="Enabled" value="1"/> 
 			<spinnerItem name="Disabled" value="0"/> 
 		</spinner>
 
-	</settingsPane-->
+		<spinner description="Here you can set strict mode active. (Default: Disabled)" name="strict_mode_active" action="generic /sys/module/intelli_plug/parameters/strict_mode_active">
+			<spinnerItem name="Enabled" value="1"/> 
+			<spinnerItem name="Disabled" value="0"/> 
+		</spinner>
+
+	</settingsPane>
 
 	<settingsPane description="Here you can tune alucard hotplug" name="alucard hotplug Tuning">
 
@@ -286,14 +297,19 @@
 
 <settingsTab name="CPU-HOTPLUGGING (SLEEP)">
 
-	<!--settingsPane description="Here you can tune Intelliplug" name="Intelliplug Tuning">
+	<settingsPane description="Here you can tune Intelliplug" name="Intelliplug Tuning">
 
 		<spinner description="Here you can set eco mode tweaks. (Default: Enabled)" name="eco_mode_active_sleep" action="generic_cortex /tmp/eco_mode_active_sleep">
 			<spinnerItem name="Enabled" value="1"/> 
 			<spinnerItem name="Disabled" value="0"/> 
 		</spinner>
 
-	</settingsPane-->
+		<spinner description="Here you can set strict mode active. (Default: Disabled)" name="strict_mode_active_sleep" action="generic_cortex /sys/module/intelli_plug/parameters/strict_mode_active_sleep">
+			<spinnerItem name="Enabled" value="1"/> 
+			<spinnerItem name="Disabled" value="0"/> 
+		</spinner>
+
+	</settingsPane>
 
 	<settingsPane description="Here you can tune alucard hotplug for sleeping" name="alucard hotplug Tuning">
 
