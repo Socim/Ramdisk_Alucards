@@ -20,39 +20,46 @@ OPEN_RW;
 # Boot with CFQ I/O Gov
 $BB echo "cfq" > /sys/block/mmcblk0/queue/scheduler;
 
-# clean old modules from /system and add new from ramdisk
-if [ ! -d /system/lib/modules ]; then
-        $BB mkdir /system/lib/modules;
-fi;
-cd /lib/modules/;
-for i in *.ko; do
-        $BB rm -f /system/lib/modules/"$i";
-done;
-cd /;
+SYSTEM_MODULES()
+{
+		# clean old modules from /system and add new from ramdisk
+		if [ ! -d /system/lib/modules ]; then
+				$BB mkdir /system/lib/modules;
+		fi;
+		cd /lib/modules/;
+		for i in *.ko; do
+				$BB rm -f /system/lib/modules/"$i";
+		done;
+		cd /;
 
-$BB chmod 755 /lib/modules/*.ko;
-$BB cp -a /lib/modules/*.ko /system/lib/modules/;
+		$BB chmod 755 /lib/modules/*.ko;
+		$BB cp -a /lib/modules/*.ko /system/lib/modules/;
+}
+SYSTEM_MODULES;
 
-# create init.d folder if missing
-if [ ! -d /system/etc/init.d ]; then
-	mkdir -p /system/etc/init.d/
-	$BB chmod 755 /system/etc/init.d/;
-fi;
+ROM_SCRIPTS()
+{
+		# create init.d folder if missing
+		if [ ! -d /system/etc/init.d ]; then
+			$BB mkdir -p /system/etc/init.d/
+			$BB chmod 755 /system/etc/init.d/;
+		fi;
 
-(
-	if [ ! -d /data/init.d_bkp ]; then
-		$BB mkdir /data/init.d_bkp;
-	fi;
-	$BB mv /system/etc/init.d/* /data/init.d_bkp/;
-        # run ROM scripts
-        if [ -e /system/etc/init.qcom.post_boot.sh ]; then
-                $BB sh /system/etc/init.qcom.post_boot.sh
-        else
-                $BB echo "No ROM Boot script detected"
-        fi;
-	$BB mv /data/init.d_bkp/* /system/etc/init.d/
-)&
-
+		(
+			if [ ! -d /data/init.d_bkp ]; then
+				$BB mkdir /data/init.d_bkp;
+			fi;
+			$BB mv /system/etc/init.d/* /data/init.d_bkp/;
+				# run ROM scripts
+				if [ -e /system/etc/init.qcom.post_boot.sh ]; then
+				        $BB sh /system/etc/init.qcom.post_boot.sh
+				else
+				        $BB echo "No ROM Boot script detected"
+				fi;
+			$BB mv /data/init.d_bkp/* /system/etc/init.d/
+		)&
+}
+ROM_SCRIPTS;
 sleep 5;
 OPEN_RW;
 
@@ -169,6 +176,12 @@ PIDOFINIT=$(pgrep -f "/sbin/ext/post-init.sh");
 for i in $PIDOFINIT; do
 	echo "-600" > /proc/"$i"/oom_score_adj;
 done;
+
+# Force modules copying
+OPEN_RW;
+SYSTEM_MODULES;
+# Force ROM Scripts
+ROM_SCRIPTS;
 
 if [ ! -d /data/.alucard ]; then
 	$BB mkdir -p /data/.alucard;
