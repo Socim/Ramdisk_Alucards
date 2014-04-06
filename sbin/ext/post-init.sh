@@ -20,22 +20,6 @@ OPEN_RW;
 # Boot with CFQ I/O Gov
 $BB echo "cfq" > /sys/block/mmcblk0/queue/scheduler;
 
-SYSTEM_MODULES()
-{
-		# clean old modules from /system and add new from ramdisk
-		if [ ! -d /system/lib/modules ]; then
-				$BB mkdir /system/lib/modules;
-		fi;
-		cd /lib/modules/;
-		for i in *.ko; do
-				$BB rm -f /system/lib/modules/"$i";
-		done;
-		cd /;
-
-		$BB chmod 755 /lib/modules/*.ko;
-		$BB cp -a /lib/modules/*.ko /system/lib/modules/;
-}
-SYSTEM_MODULES;
 
 ROM_SCRIPTS()
 {
@@ -178,10 +162,10 @@ for i in $PIDOFINIT; do
 done;
 
 # Force modules copying
-OPEN_RW;
-SYSTEM_MODULES;
+# OPEN_RW;
+# SYSTEM_MODULES;
 # Force ROM Scripts
-ROM_SCRIPTS;
+# ROM_SCRIPTS;
 
 if [ ! -d /data/.alucard ]; then
 	$BB mkdir -p /data/.alucard;
