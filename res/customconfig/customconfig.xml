@@ -212,7 +212,7 @@
 
 		<seekBar description="No of samples to evaluate load to scale CPU Up. After cpu_up_rate samples are finished for a frequency, CPU scale-Up logic is executed. In other words - before scaling Up, cpu_up_rate X up_sample_time micro seconds are spend at a frequency. (Default: 2)" name="cpu_up_rate" action="generic_cortex /tmp/cpu_up_rate" unit="int" min="1" reversed="false" step="1" max="40"/>
 
-		<seekBar description="No of samples to evaluate load to scale CPU Down. After CPU_down_rate samples are finished for a frequency, CPU scale-Down logic is executed. In other words - before scaling Down, cpu_down_rate X down_sample_time micro seconds are spend at a frequency. (Default: 2)" name="cpu_down_rate" action="generic_cortex /tmp/cpu_down_rate" unit="int" min="1" reversed="false" step="1" max="40"/>
+		<seekBar description="No of samples to evaluate load to scale CPU Down. After CPU_down_rate samples are finished for a frequency, CPU scale-Down logic is executed. In other words - before scaling Down, cpu_down_rate X down_sample_time micro seconds are spend at a frequency. (Default: 5)" name="cpu_down_rate" action="generic_cortex /tmp/cpu_down_rate" unit="int" min="1" reversed="false" step="1" max="40"/>
 
 		<seekBar description="Up threshold frequency to turn second core On, when some other conditions is also met. ie If (minimum frequency greater than or equal to hotplug_freq 1 1) Hotplug IN Second Core. Higher value correpsonds to delay in turning on second core. (Default: 1242.000 kHz)" name="hotplug_freq_1_1" action="generic_cortex /tmp/hotplug_freq_1_1" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
 
@@ -566,7 +566,7 @@
 
 </settingsTab>
 
-<settingsTab name="ROOT">
+<!--settingsTab name="ROOT">
 
 	<settingsPane description="Remove OR Reinstall ROOT! You can have a ROOTED or not ROOTED phone." name="Root">
 
@@ -576,11 +576,11 @@
 
 		<button description="Root check. Click to see if you have ROOT or not" name="ROOT Check" action="push-actions/root_check" label="ROOT CHECK"/>
 
-		<!--checkbox description="If box is checked, root will be installed on the next restart." name="Auto-Install Root" action="generic_cortex /tmp/install_root" label="Auto-Install Root"/-->
+		<checkbox description="If box is checked, root will be installed on the next restart." name="Auto-Install Root" action="generic_cortex /tmp/install_root" label="Auto-Install Root"/>
 
 	</settingsPane>
 
-</settingsTab>
+</settingsTab-->
 
 <settingsTab name="Tweaks">
 
