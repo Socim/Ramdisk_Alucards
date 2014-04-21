@@ -56,21 +56,6 @@ fi;
 	$BB mv /data/init.d_bkp/* /system/etc/init.d/
 )&
 
-		(
-			if [ ! -d /data/init.d_bkp ]; then
-				$BB mkdir /data/init.d_bkp;
-			fi;
-			$BB mv /system/etc/init.d/* /data/init.d_bkp/;
-				# run ROM scripts
-				if [ -e /system/etc/init.qcom.post_boot.sh ]; then
-				        $BB sh /system/etc/init.qcom.post_boot.sh
-				else
-				        $BB echo "No ROM Boot script detected"
-				fi;
-			$BB mv /data/init.d_bkp/* /system/etc/init.d/
-		)&
-}
-ROM_SCRIPTS;
 sleep 5;
 OPEN_RW;
 
@@ -184,12 +169,6 @@ PIDOFINIT=$(pgrep -f "/sbin/ext/post-init.sh");
 for i in $PIDOFINIT; do
 	echo "-600" > /proc/"$i"/oom_score_adj;
 done;
-
-# Force modules copying
-# OPEN_RW;
-# SYSTEM_MODULES;
-# Force ROM Scripts
-# ROM_SCRIPTS;
 
 if [ ! -d /data/.alucard ]; then
 	$BB mkdir -p /data/.alucard;

@@ -110,7 +110,7 @@ IO_TWEAKS()
 	fi;
 }
 apply_cpu="$2";
-if [ "$apply_cpu" != "update" ] && [ "$apply_cpu" != "changes" ]; then
+if [ "$apply_cpu" != "update" ]; then
 	IO_TWEAKS;
 fi;
 
@@ -692,7 +692,7 @@ MOUNT_SD_CARD()
 }
 # run dual mount on boot
 apply_cpu="$2";
-if [ "$apply_cpu" != "update" ] && [ "$apply_cpu" != "changes" ]; then
+if [ "$apply_cpu" != "update" ]; then
 	MOUNT_SD_CARD;
 fi;
 
@@ -744,7 +744,7 @@ KERNEL_TWEAKS()
 	fi;
 }
 apply_cpu="$2";
-if [ "$apply_cpu" != "update" ] && [ "$apply_cpu" != "changes" ]; then
+if [ "$apply_cpu" != "update" ]; then
 	KERNEL_TWEAKS;
 fi;
 
@@ -762,7 +762,7 @@ SYSTEM_TWEAKS()
 	fi;
 }
 apply_cpu="$2";
-if [ "$apply_cpu" != "update" ] && [ "$apply_cpu" != "changes" ]; then
+if [ "$apply_cpu" != "update" ]; then
 	SYSTEM_TWEAKS;
 fi;
 
@@ -788,7 +788,7 @@ MEMORY_TWEAKS()
 	fi;
 }
 apply_cpu="$2";
-if [ "$apply_cpu" != "update" ] && [ "$apply_cpu" != "changes" ]; then
+if [ "$apply_cpu" != "update" ]; then
 	MEMORY_TWEAKS;
 fi;
 
@@ -848,7 +848,7 @@ TCP_TWEAKS()
 	fi;
 }
 apply_cpu="$2";
-if [ "$apply_cpu" != "update" ] && [ "$apply_cpu" != "changes" ]; then
+if [ "$apply_cpu" != "update" ]; then
 	TCP_TWEAKS;
 fi;
 
@@ -871,7 +871,7 @@ FIREWALL_TWEAKS()
 	fi;
 }
 apply_cpu="$2";
-if [ "$apply_cpu" != "update" ] && [ "$apply_cpu" != "changes" ]; then
+if [ "$apply_cpu" != "update" ]; then
 	FIREWALL_TWEAKS;
 fi;
 
