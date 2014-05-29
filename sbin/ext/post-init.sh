@@ -2,7 +2,7 @@
 
 # Kernel Tuning by Alucard. Thanks to Dorimanx.
 
-BB=/sbin/busybox
+BB=/sbin/busybox;
 
 # protect init from oom
 echo "-1000" > /proc/1/oom_score_adj;
@@ -37,7 +37,7 @@ $BB echo "row" > /sys/block/mmcblk0/queue/scheduler;
 #for i in *.ko; do
 #        $BB rm -f /system/lib/modules/"$i";
 #done;
-#cd /;
+cd /;
 
 #$BB chmod 755 /lib/modules/*.ko;
 #$BB cp -a /lib/modules/*.ko /system/lib/modules/;
@@ -56,12 +56,12 @@ fi;
 
 	# run ROM scripts
 	if [ -e /system/etc/init.qcom.post_boot.sh ]; then
-		 /system/bin/sh /system/etc/init.qcom.post_boot.sh
+		 /system/bin/sh /system/etc/init.qcom.post_boot.sh;
 	else
-		$BB echo "No ROM Boot script detected"
+		$BB echo "No ROM Boot script detected";
 	fi;
 
-	$BB mv /data/init.d_bkp/* /system/etc/init.d/
+	$BB mv /data/init.d_bkp/* /system/etc/init.d/;
 )&
 
 sleep 5;
@@ -94,64 +94,64 @@ CRITICAL_PERM_FIX()
 	$BB chmod -R 06755 /sbin/ext/;
 	$BB chmod -R 0777 /data/anr/;
 	$BB chmod -R 0400 /data/tombstones;
-	$BB chmod 06755 /sbin/busybox
+	$BB chmod 06755 /sbin/busybox;
 }
 CRITICAL_PERM_FIX;
 
 # oom and mem perm fix
 $BB chmod 666 /sys/module/lowmemorykiller/parameters/cost;
 $BB chmod 666 /sys/module/lowmemorykiller/parameters/adj;
-$BB chmod 666 /sys/module/lowmemorykiller/parameters/minfree
+$BB chmod 666 /sys/module/lowmemorykiller/parameters/minfree;
 
 # make sure we own the device nodes
 # $BB chown system /sys/devices/system/cpu/cpufreq/alucard/*
-$BB chown system /sys/devices/system/cpu/cpu0/cpufreq/*
-$BB chown system /sys/devices/system/cpu/cpu1/online
-$BB chown system /sys/devices/system/cpu/cpu2/online
-$BB chown system /sys/devices/system/cpu/cpu3/online
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor_all_cpus
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_all_cpus
-$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq
-$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/stats/*
-$BB chmod 666 /sys/devices/system/cpu/cpu1/online
-$BB chmod 666 /sys/devices/system/cpu/cpu2/online
-$BB chmod 666 /sys/devices/system/cpu/cpu3/online
-$BB chmod 666 /sys/module/msm_thermal/parameters/*
-$BB chmod 666 /sys/module/msm_thermal/core_control/enabled
-$BB chmod 666 /sys/kernel/intelli_plug/*
-$BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk
-$BB chmod 666 /sys/devices/platform/kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor
+$BB chown system /sys/devices/system/cpu/cpu0/cpufreq/*;
+$BB chown system /sys/devices/system/cpu/cpu1/online;
+$BB chown system /sys/devices/system/cpu/cpu2/online;
+$BB chown system /sys/devices/system/cpu/cpu3/online;
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor_all_cpus;
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus;
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_all_cpus;
+$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq;
+$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/stats/*;
+$BB chmod 666 /sys/devices/system/cpu/cpu1/online;
+$BB chmod 666 /sys/devices/system/cpu/cpu2/online;
+$BB chmod 666 /sys/devices/system/cpu/cpu3/online;
+$BB chmod 666 /sys/module/msm_thermal/parameters/*;
+$BB chmod 666 /sys/module/msm_thermal/core_control/enabled;
+$BB chmod 666 /sys/kernel/intelli_plug/*;
+$BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk;
+$BB chmod 666 /sys/devices/platform/kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor;
 
 $BB chown -R root:root /data/property;
-$BB chmod -R 0700 /data/property
+$BB chmod -R 0700 /data/property;
 
 # Tweak some VM settings for system smoothness
-echo 20 > /proc/sys/vm/dirty_background_ratio
-echo 40 > /proc/sys/vm/dirty_ratio
+echo 20 > /proc/sys/vm/dirty_background_ratio;
+echo 40 > /proc/sys/vm/dirty_ratio;
 
 # set ondemand GPU governor as default
-echo "ondemand" > /sys/devices/platform/kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor
+echo "ondemand" > /sys/devices/platform/kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor;
 
 # set default readahead
-echo 1024 > /sys/block/mmcblk0/bdi/read_ahead_kb
-echo 1024 > /sys/block/mmcblk0/queue/read_ahead_kb
+echo 1024 > /sys/block/mmcblk0/bdi/read_ahead_kb;
+echo 1024 > /sys/block/mmcblk0/queue/read_ahead_kb;
 
 # make sure our max gpu clock is set via sysfs
-echo 450000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk
+echo 450000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk;
 
 # set min max boot freq to default.
 echo "1890000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus;
 echo "378000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_all_cpus;
 
 # Fix ROM dev wrong sets.
-setprop persist.adb.notify 0
-setprop persist.service.adb.enable 1
-setprop dalvik.vm.execution-mode int:jit
-setprop pm.sleep_mode 1
+setprop persist.adb.notify 0;
+setprop persist.service.adb.enable 1;
+setprop dalvik.vm.execution-mode int:jit;
+setprop pm.sleep_mode 1;
 
 if [ ! -d /data/.alucard ]; then
 	$BB mkdir -p /data/.alucard;
@@ -235,8 +235,8 @@ fi;
 OPEN_RW;
 
 # for ntfs automounting
-$BB mkdir /mnt/ntfs
-$BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
+$BB mkdir /mnt/ntfs;
+$BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs;
 
 (
 	# set alucard as default gov
@@ -287,6 +287,6 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 
 	# script finish here, so let me know when
 	TIME_NOW=$(date)
-	echo "$TIME_NOW" > /data/boot_log_dm
+	echo "$TIME_NOW" > /data/boot_log_dm;
 )&
 
