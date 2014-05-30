@@ -2,7 +2,7 @@
 
 # Kernel Tuning by Alucard. Thanks to Dorimanx.
 
-BB=/sbin/busybox
+BB=/sbin/busybox;
 
 # protect init from oom
 echo "-1000" > /proc/1/oom_score_adj;
@@ -22,8 +22,11 @@ OPEN_RW()
 }
 OPEN_RW;
 
-# Boot with CFQ I/O Gov
-$BB echo "cfq" > /sys/block/mmcblk0/queue/scheduler;
+# fix storage folder owner
+$BB chown system.sdcard_rw /storage;
+
+# Boot with ROW I/O Gov
+$BB echo "row" > /sys/block/mmcblk0/queue/scheduler;
 
 # clean old modules from /system and add new from ramdisk
 #if [ ! -d /system/lib/modules ]; then
@@ -34,7 +37,7 @@ $BB echo "cfq" > /sys/block/mmcblk0/queue/scheduler;
 #for i in *.ko; do
 #        $BB rm -f /system/lib/modules/"$i";
 #done;
-#cd /;
+cd /;
 
 #$BB chmod 755 /lib/modules/*.ko;
 #$BB cp -a /lib/modules/*.ko /system/lib/modules/;
@@ -53,12 +56,12 @@ fi;
 
 	# run ROM scripts
 	if [ -e /system/etc/init.qcom.post_boot.sh ]; then
-		 /system/bin/sh /system/etc/init.qcom.post_boot.sh
+		 /system/bin/sh /system/etc/init.qcom.post_boot.sh;
 	else
-		$BB echo "No ROM Boot script detected"
+		$BB echo "No ROM Boot script detected";
 	fi;
 
-	$BB mv /data/init.d_bkp/* /system/etc/init.d/
+	$BB mv /data/init.d_bkp/* /system/etc/init.d/;
 )&
 
 sleep 5;
@@ -91,64 +94,64 @@ CRITICAL_PERM_FIX()
 	$BB chmod -R 06755 /sbin/ext/;
 	$BB chmod -R 0777 /data/anr/;
 	$BB chmod -R 0400 /data/tombstones;
-	$BB chmod 06755 /sbin/busybox
+	$BB chmod 06755 /sbin/busybox;
 }
 CRITICAL_PERM_FIX;
 
 # oom and mem perm fix
 $BB chmod 666 /sys/module/lowmemorykiller/parameters/cost;
 $BB chmod 666 /sys/module/lowmemorykiller/parameters/adj;
-$BB chmod 666 /sys/module/lowmemorykiller/parameters/minfree
+$BB chmod 666 /sys/module/lowmemorykiller/parameters/minfree;
 
 # make sure we own the device nodes
 # $BB chown system /sys/devices/system/cpu/cpufreq/alucard/*
-$BB chown system /sys/devices/system/cpu/cpu0/cpufreq/*
-$BB chown system /sys/devices/system/cpu/cpu1/online
-$BB chown system /sys/devices/system/cpu/cpu2/online
-$BB chown system /sys/devices/system/cpu/cpu3/online
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor_all_cpus
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_all_cpus
-$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq
-$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/stats/*
-$BB chmod 666 /sys/devices/system/cpu/cpu1/online
-$BB chmod 666 /sys/devices/system/cpu/cpu2/online
-$BB chmod 666 /sys/devices/system/cpu/cpu3/online
-$BB chmod 666 /sys/module/msm_thermal/parameters/*
-$BB chmod 666 /sys/module/msm_thermal/core_control/enabled
-$BB chmod 666 /sys/kernel/intelli_plug/*
-$BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk
-$BB chmod 666 /sys/devices/platform/kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor
+$BB chown system /sys/devices/system/cpu/cpu0/cpufreq/*;
+$BB chown system /sys/devices/system/cpu/cpu1/online;
+$BB chown system /sys/devices/system/cpu/cpu2/online;
+$BB chown system /sys/devices/system/cpu/cpu3/online;
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor_all_cpus;
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus;
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_all_cpus;
+$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq;
+$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/stats/*;
+$BB chmod 666 /sys/devices/system/cpu/cpu1/online;
+$BB chmod 666 /sys/devices/system/cpu/cpu2/online;
+$BB chmod 666 /sys/devices/system/cpu/cpu3/online;
+$BB chmod 666 /sys/module/msm_thermal/parameters/*;
+$BB chmod 666 /sys/module/msm_thermal/core_control/enabled;
+$BB chmod 666 /sys/kernel/intelli_plug/*;
+$BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk;
+$BB chmod 666 /sys/devices/platform/kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor;
 
 $BB chown -R root:root /data/property;
-$BB chmod -R 0700 /data/property
+$BB chmod -R 0700 /data/property;
 
 # Tweak some VM settings for system smoothness
-echo 20 > /proc/sys/vm/dirty_background_ratio
-echo 40 > /proc/sys/vm/dirty_ratio
+echo 20 > /proc/sys/vm/dirty_background_ratio;
+echo 40 > /proc/sys/vm/dirty_ratio;
 
 # set ondemand GPU governor as default
-echo "ondemand" > /sys/devices/platform/kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor
+echo "ondemand" > /sys/devices/platform/kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor;
 
 # set default readahead
-echo 1024 > /sys/block/mmcblk0/bdi/read_ahead_kb
-echo 1024 > /sys/block/mmcblk0/queue/read_ahead_kb
+echo 1024 > /sys/block/mmcblk0/bdi/read_ahead_kb;
+echo 1024 > /sys/block/mmcblk0/queue/read_ahead_kb;
 
 # make sure our max gpu clock is set via sysfs
-echo 450000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk
+echo 450000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk;
 
 # set min max boot freq to default.
 echo "1890000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus;
 echo "378000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_all_cpus;
 
 # Fix ROM dev wrong sets.
-setprop persist.adb.notify 0
-setprop persist.service.adb.enable 1
-setprop dalvik.vm.execution-mode int:jit
-setprop pm.sleep_mode 1
+setprop persist.adb.notify 0;
+setprop persist.service.adb.enable 1;
+setprop dalvik.vm.execution-mode int:jit;
+setprop pm.sleep_mode 1;
 
 if [ ! -d /data/.alucard ]; then
 	$BB mkdir -p /data/.alucard;
@@ -192,11 +195,6 @@ read_config;
 # enable force fast charge on USB to charge faster
 echo "$force_fast_charge" > /sys/kernel/fast_charge/force_fast_charge;
 
-# busybox addons
-if [ -e /system/xbin/busybox ] && [ ! -e /sbin/ifconfig ]; then
-	$BB ln -s /system/xbin/busybox /sbin/ifconfig;
-fi;
-
 ######################################
 # Loading Modules
 ######################################
@@ -222,27 +220,27 @@ echo "0" > /proc/sys/kernel/kptr_restrict;
 if [ "$logger" == "off" ]; then
 	echo "N" > /sys/module/kernel/parameters/initcall_debug;
 	echo "0" > /sys/module/earlysuspend/parameters/debug_mask;
-	echo "0" > /sys/module/alarm/parameters/debug_mask;
-	echo "0" > /sys/module/alarm_dev/parameters/debug_mask;
-	echo "0" > /sys/module/binder/parameters/debug_mask;
+#	echo "0" > /sys/module/alarm/parameters/debug_mask;
+#	echo "0" > /sys/module/alarm_dev/parameters/debug_mask;
+#	echo "0" > /sys/module/binder/parameters/debug_mask;
 	echo "0" > /sys/module/xt_qtaguid/parameters/debug_mask;
-	#echo "0" > /sys/kernel/debug/clk/debug_suspend;
-	#echo "0" > /sys/kernel/debug/msm_vidc/debug_level;
-	#echo "0" > /sys/module/ipc_router/parameters/debug_mask;
-	echo "0" > /sys/module/msm_serial_hs/parameters/debug_mask;
-	echo "0" > /sys/module/msm_show_resume_irq/parameters/debug_mask;
-	echo "0" > /sys/module/pm_8x60/parameters/debug_mask;
+#	echo "0" > /sys/kernel/debug/clk/debug_suspend;
+#	echo "0" > /sys/kernel/debug/msm_vidc/debug_level;
+#	echo "0" > /sys/module/ipc_router/parameters/debug_mask;
+#	echo "0" > /sys/module/msm_serial_hs/parameters/debug_mask;
+#	echo "0" > /sys/module/msm_show_resume_irq/parameters/debug_mask;
+#	echo "0" > /sys/module/pm_8x60/parameters/debug_mask;
 fi;
 
 OPEN_RW;
 
 # for ntfs automounting
-$BB mkdir /mnt/ntfs
-$BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
+$BB mkdir /mnt/ntfs;
+$BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs;
 
 (
 	# set alucard as default gov
-	# echo "alucard" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor_all_cpus;
+	echo "alucard" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor_all_cpus;
 
 	if [ "$stweaks_boot_control" == "yes" ]; then
 		# stop uci.sh from running all the PUSH Buttons in stweaks on boot
@@ -253,8 +251,6 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 		$BB chmod 06755 /res/no-push-on-boot/*;
 
 		# apply STweaks settings
-		echo "booting" > /data/.alucard/booting;
-		$BB chmod 777 /data/.alucard/booting;
 		$BB pkill -f "com.gokhanmoral.stweaks.app";
 		$BB nohup $BB sh /res/uci.sh restore;
 
@@ -262,9 +258,6 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 		# restore all the PUSH Button Actions back to there location
 		$BB mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
 		$BB pkill -f "com.gokhanmoral.stweaks.app";
-
-		# update cpu tunig after profiles load
-		$BB rm -f /data/.alucard/booting;
 
 		# correct oom tuning, if changed by apps/rom
 		$BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
@@ -283,17 +276,17 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 	fi;
 
 	# ROOT activation if supersu used
-	if [ -e /system/app/SuperSU.apk ] && [ -e /system/xbin/daemonsu ]; then
-		if [ "$(pgrep -f "/system/xbin/daemonsu" | wc -l)" -eq "0" ]; then
-			/system/xbin/daemonsu --auto-daemon &
-		fi;
-	fi;
+	# if [ -e /system/app/SuperSU.apk ] && [ -e /system/xbin/daemonsu ]; then
+	#	if [ "$(pgrep -f "/system/xbin/daemonsu" | wc -l)" -eq "0" ]; then
+	#		/system/xbin/daemonsu --auto-daemon &
+	#	fi;
+	# fi;
 
 	# Fix critical perms again after init.d mess
 	CRITICAL_PERM_FIX;
 
 	# script finish here, so let me know when
 	TIME_NOW=$(date)
-	echo "$TIME_NOW" > /data/boot_log_dm
+	echo "$TIME_NOW" > /data/boot_log_dm;
 )&
 

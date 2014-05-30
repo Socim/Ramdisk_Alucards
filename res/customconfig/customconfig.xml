@@ -14,21 +14,27 @@
 
 	<settingsPane description="The following settings are for all global CPU configuration, use it only if you know what you are doing." name="CPU Global Settings">
 
-		<seekBar description="Maximum CPU-Speed for all CPU's. CPU Frequency steps by 108.000 kHz, from 162.000 kHz to 1.890.000 kHz! (Default: 1.890.000 kHz)" name="Max Normal Frequency" action="genericfreq /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Maximum CPU-Speed for all CPU's. CPU Frequency steps by 108.000 kHz, from 378.000 kHz to 1.890.000 kHz! (Default: 1.890.000 kHz)" name="Max Normal Frequency" action="genericfreq /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Minimum CPU-Speed for all CPU's. CPU Frequency step by 108.000 kHz are valid from 162.000 kHz to 1.890.000 kHz! (Default: 378.000 kHz)" name="Min Frequency" action="genericfreq /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_all_cpus" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Minimum CPU-Speed for all CPU's. CPU Frequency step by 108.000 kHz are valid from 378.000 kHz to 1.890.000 kHz! (Default: 378.000 kHz)" name="Min Frequency" action="genericfreq /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_all_cpus" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
 	</settingsPane>
 
 	<settingsPane description="Set CPU settings to save power." name="CPU Idle and Power Settings">
 
+		<checkbox description="Disabling GENTLE_FAIR_SLEEPERS may give you better UI responsiveness." name="GENTLE_FAIR_SLEEPERS" action="generic01 /sys/kernel/sched/gentle_fair_sleepers" label="GENTLE_FAIR_SLEEPERS"/>
+
+		<checkbox description="Using ARCH POWER enables the use of ARM topology power functions instead of generic ones, and saves battery. Not recommended to disable." name="ARCH POWER" action="schedfeat ARCH_POWER" label="ARCH POWER"/>
+      
+		<seekBar description="Sets the sched_mc value which changes the cpu scheduler behaviour for multi-cpu systems. 0 is kernel's default value which turns sched_mc off. Setting it to 1 means that the first core will be tried to be loaded more and setting it to 2 will bias task wake-ups to semi-idle cpu package for power savings. (default: 2)" name="sched_mc" action="generic /sys/devices/system/cpu/sched_mc_power_savings" unit="" min="0" reversed="false" step="1" max="2"/>
+
 		<seekBar description="Maximum CPU speed while using GPS. (Default: 1890.000 kHz)." name="scaling_max_gps_freq" action="genericfreq /sys/kernel/cpufreq_limit_manager/scaling_max_gps_freq" unit="kHz" min="810000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Maximum DEEP SLEEP CPU speed. (Default: 1134.000 kHz)." name="scaling_max_suspend_freq" action="genericfreq /sys/kernel/cpufreq_limit_manager/scaling_max_suspend_freq" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Maximum DEEP SLEEP CPU speed. (Default: 1134.000 kHz)." name="scaling_max_suspend_freq" action="genericfreq /sys/kernel/cpufreq_limit_manager/scaling_max_suspend_freq" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Maximum ON CALL CPU speed. (Default: 810.000 kHz). When phone is on call and suspended." name="scaling_max_oncall_freq" action="genericfreq /sys/kernel/cpufreq_limit_manager/scaling_max_oncall_freq" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Maximum ON CALL CPU speed. (Default: 810.000 kHz). When phone is on call and suspended." name="scaling_max_oncall_freq" action="genericfreq /sys/kernel/cpufreq_limit_manager/scaling_max_oncall_freq" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Minimum DEEP SLEEP CPU speed. (Default: 378.000 kHz)." name="scaling_min_suspend_freq" action="genericfreq /sys/kernel/cpufreq_limit_manager/scaling_min_suspend_freq" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Minimum DEEP SLEEP CPU speed. (Default: 378.000 kHz)." name="scaling_min_suspend_freq" action="genericfreq /sys/kernel/cpufreq_limit_manager/scaling_min_suspend_freq" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
 	</settingsPane>
 
@@ -42,39 +48,35 @@
 
 		<button description="Use this button to see what CPU Voltage is used right now!" name="Check Active CPU Voltage" action="push-actions/check_cpu_voltage" label="Check CPU Voltage"/>
 
-		<seekBar description="CPU Voltage for 1890 MHz." name="CPU Voltage 1890 MHz" action="cpu-voltage 1" unit="µV" min="1050000" reversed="false" step="12500" max="1300000"/>
+		<seekBar description="CPU Voltage for 1890.000 KHz." name="CPU Voltage 189.000 KHz" action="cpu-voltage 1" unit="µV" min="1050000" reversed="false" step="12500" max="1300000"/>
 
-		<seekBar description="CPU Voltage for 1782 MHz." name="CPU Voltage 1782 MHz" action="cpu-voltage 2" unit="µV" min="1025000" reversed="false" step="12500" max="1225000"/>
+		<seekBar description="CPU Voltage for 1782.000 KHz." name="CPU Voltage 1782.000 KHz" action="cpu-voltage 2" unit="µV" min="1025000" reversed="false" step="12500" max="1225000"/>
 
-		<seekBar description="CPU Voltage for 1674 MHz." name="CPU Voltage 1674 MHz" action="cpu-voltage 3" unit="µV" min="1000000" reversed="false" step="12500" max="1175000"/>
+		<seekBar description="CPU Voltage for 1674.000 KHz." name="CPU Voltage 1674.000 KHz" action="cpu-voltage 3" unit="µV" min="1000000" reversed="false" step="12500" max="1175000"/>
 
-		<seekBar description="CPU Voltage for 1566 MHz." name="CPU Voltage 1566 MHz" action="cpu-voltage 4" unit="µV" min="975000" reversed="false" step="12500" max="1125000"/>
+		<seekBar description="CPU Voltage for 1566.000 KHz." name="CPU Voltage 1566.000 KHz" action="cpu-voltage 4" unit="µV" min="975000" reversed="false" step="12500" max="1125000"/>
 
-		<seekBar description="CPU Voltage for 1458 MHz." name="CPU Voltage 1458 MHz" action="cpu-voltage 5" unit="µV" min="962500" reversed="false" step="12500" max="1100000"/>
+		<seekBar description="CPU Voltage for 1458.000 KHz." name="CPU Voltage 1458.000 KHz" action="cpu-voltage 5" unit="µV" min="962500" reversed="false" step="12500" max="1100000"/>
 
-		<seekBar description="CPU Voltage for 1350 MHz." name="CPU Voltage 1350 MHz" action="cpu-voltage 6" unit="µV" min="950000" reversed="false" step="12500" max="1062500"/>
+		<seekBar description="CPU Voltage for 1350.000 KHz." name="CPU Voltage 1350.000 KHz" action="cpu-voltage 6" unit="µV" min="950000" reversed="false" step="12500" max="1062500"/>
 
-		<seekBar description="CPU Voltage for 1242 MHz." name="CPU Voltage 1242 MHz" action="cpu-voltage 7" unit="µV" min="937500" reversed="false" step="12500" max="1037500"/>
+		<seekBar description="CPU Voltage for 1242.000 KHz." name="CPU Voltage 1242.000 KHz" action="cpu-voltage 7" unit="µV" min="937500" reversed="false" step="12500" max="1037500"/>
 
-		<seekBar description="CPU Voltage for 1134 MHz." name="CPU Voltage 1134 MHz" action="cpu-voltage 8" unit="µV" min="925000" reversed="false" step="12500" max="1025000"/>
+		<seekBar description="CPU Voltage for 1134.000 KHz." name="CPU Voltage 1134.000 KHz" action="cpu-voltage 8" unit="µV" min="925000" reversed="false" step="12500" max="1025000"/>
 
-		<seekBar description="CPU Voltage for 1026 MHz." name="CPU Voltage 1026 MHz" action="cpu-voltage 9" unit="µV" min="900000" reversed="false" step="12500" max="1000000"/>
+		<seekBar description="CPU Voltage for 1026.000 KHz." name="CPU Voltage 1026.000 KHz" action="cpu-voltage 9" unit="µV" min="900000" reversed="false" step="12500" max="1000000"/>
 
-		<seekBar description="CPU Voltage for 918 MHz." name="CPU Voltage 918 MHz" action="cpu-voltage 10" unit="µV" min="887500" reversed="false" step="12500" max="975000"/>
+		<seekBar description="CPU Voltage for 918.000 KHz." name="CPU Voltage 918.000 KHz" action="cpu-voltage 10" unit="µV" min="887500" reversed="false" step="12500" max="975000"/>
 
-		<seekBar description="CPU Voltage for 810 MHz." name="CPU Voltage 810 MHz" action="cpu-voltage 11" unit="µV" min="875000" reversed="false" step="12500" max="962500"/>
+		<seekBar description="CPU Voltage for 810.000 KHz." name="CPU Voltage 810.000 KHz" action="cpu-voltage 11" unit="µV" min="875000" reversed="false" step="12500" max="962500"/>
 
-		<seekBar description="CPU Voltage for 702 MHz." name="CPU Voltage 702 MHz" action="cpu-voltage 12" unit="µV" min="850000" reversed="false" step="12500" max="950000"/>
+		<seekBar description="CPU Voltage for 702.000 KHz." name="CPU Voltage 702.000 KHz" action="cpu-voltage 12" unit="µV" min="850000" reversed="false" step="12500" max="950000"/>
 
-		<seekBar description="CPU Voltage for 594 MHz." name="CPU Voltage 594 MHz" action="cpu-voltage 13" unit="µV" min="850000" reversed="false" step="12500" max="950000"/>
+		<seekBar description="CPU Voltage for 594.000 KHz." name="CPU Voltage 594.000 KHz" action="cpu-voltage 13" unit="µV" min="850000" reversed="false" step="12500" max="950000"/>
 
-		<seekBar description="CPU Voltage for 486 MHz." name="CPU Voltage 486 MHz" action="cpu-voltage 14" unit="µV" min="850000" reversed="false" step="12500" max="950000"/>
+		<seekBar description="CPU Voltage for 486.000 KHz." name="CPU Voltage 486.000 KHz" action="cpu-voltage 14" unit="µV" min="850000" reversed="false" step="12500" max="950000"/>
 
-		<seekBar description="CPU Voltage for 378 MHz." name="CPU Voltage 378 MHz" action="cpu-voltage 15" unit="µV" min="825000" reversed="false" step="12500" max="925000"/>
-
-		<seekBar description="CPU Voltage for 270 MHz." name="CPU Voltage 270 MHz" action="cpu-voltage 16" unit="µV" min="800000" reversed="false" step="12500" max="900000"/>
-
-		<seekBar description="CPU Voltage for 162 MHz." name="CPU Voltage 162 MHz" action="cpu-voltage 17" unit="µV" min="800000" reversed="false" step="12500" max="900000"/>
+		<seekBar description="CPU Voltage for 378.000 KHz." name="CPU Voltage 378.000 KHz" action="cpu-voltage 15" unit="µV" min="825000" reversed="false" step="12500" max="925000"/>
 
 	</settingsPane>
 
@@ -113,7 +115,7 @@
 
 		<seekBar description="After spending sampling_down_factor X sampling_rate micro seconds at maximum frequency on high load, governor samples the load again to calculate an approx target frequency to scale-down-to which should not trigger up_threshold in the next sample. (Triggering up threshold may cause jumping to max frequency again). Max_load_freq is checked against (up_threshold - down_differential) X current frequency. If found to be smaller, CPU is scaled down to a target frequency as described above. Down_differential also act as the factor to prevent aggressive scale down. (Only for HYPER, Ondemand, PegasusQ) (default: 5)" name="down_differential" action="generic_cortex /tmp/down_differential" unit="int" min="1" reversed="false" step="1" max="80"/>
 
-		<seekBar description="Until freq_for_responsiveness, Up Threshold considered for sampling load is up_threshold_at_min_freq. Also during the part where CPU is at maximum load frequency, governor need to find the optimal frequency as the next frequency - which should not trigger up_threshold in the next sampling. When such a frequency_next is found to be a) less than freq_for_responsiveness b) will not trigger down_threshold in the next sample, then the optimal frequency is set to freq_for_responsiveness. (Only for HYPER, PegasusQ, Nightmare) (Default: 486.000 kHz)" name="freq_for_responsiveness" action="generic_cortex /tmp/freq_for_responsiveness" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Until freq_for_responsiveness, Up Threshold considered for sampling load is up_threshold_at_min_freq. Also during the part where CPU is at maximum load frequency, governor need to find the optimal frequency as the next frequency - which should not trigger up_threshold in the next sampling. When such a frequency_next is found to be a) less than freq_for_responsiveness b) will not trigger down_threshold in the next sample, then the optimal frequency is set to freq_for_responsiveness. (Only for HYPER, PegasusQ, Nightmare) (Default: 486.000 kHz)" name="freq_for_responsiveness" action="generic_cortex /tmp/freq_for_responsiveness" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
 		<seekBar description="This is same as the up_threshold found for the Ondemand governor but for the opposite direction. For example when set to its default value of 30 it means that if the CPU usage needs to be below 30% between samples to have the frequency decreased. (Only for Conservative) (Default: 30%)" name="down_threshold" action="generic_cortex /tmp/down_threshold" unit="%" min="1" reversed="false" step="1" max="100"/>
 
@@ -129,9 +131,9 @@
 
 		<seekBar description="The frequency at which governor scales CPU down. Load less than dec_cpu_load: cpu scaled down. (Only for Nightmare, Alucard). (Default: 60%)" name="dec_cpu_load" action="generic_cortex /tmp/dec_cpu_load" unit="%" min="10" reversed="false" step="1" max="100"/>
 
-		<seekBar description="When current freq is greater than freq_for_responsiviness_max, freq_step_dec will be equal to freq_step_dec_at_max_freq. (Only for Nightmare). (Default: 1890.000 kHz)" name="freq_for_responsiveness_max" action="generic_cortex /tmp/freq_for_responsiveness_max" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="When current freq is greater than freq_for_responsiviness_max, freq_step_dec will be equal to freq_step_dec_at_max_freq. (Only for Nightmare). (Default: 1890.000 kHz)" name="freq_for_responsiveness_max" action="generic_cortex /tmp/freq_for_responsiveness_max" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Until freq_responsiveness, Up Threshold considered for sampling load is inc_cpu_load_at_min_freq. Also during the part where CPU is at maximum load frequency, governor need to find the optimal frequency as the next frequency - which should not trigger up_threshold in the next sampling. When such a frequency_next is found to be a) less than freq_responsiveness b) will not trigger down_threshold in the next sample, then the optimal frequency is set to freq_responsiveness. (Only for Alucard) (Default: 918.000 kHz)" name="freq_responsiveness" action="generic_cortex /tmp/freq_responsiveness" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Until freq_responsiveness, Up Threshold considered for sampling load is inc_cpu_load_at_min_freq. Also during the part where CPU is at maximum load frequency, governor need to find the optimal frequency as the next frequency - which should not trigger up_threshold in the next sampling. When such a frequency_next is found to be a) less than freq_responsiveness b) will not trigger down_threshold in the next sample, then the optimal frequency is set to freq_responsiveness. (Only for Alucard) (Default: 918.000 kHz)" name="freq_responsiveness" action="generic_cortex /tmp/freq_responsiveness" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
 		<seekBar description="Governor should increase CPU frequency by n step each time CPU load reaches inc_cpu_load. (Only for Alucard) (Default: 2)" name="pump_inc_step" action="generic_cortex /tmp/pump_inc_step" unit="step" min="1" reversed="false" step="1" max="3"/>
 
@@ -168,7 +170,8 @@
 		<spinner description="Set the CPU hotplugging system. (Default: ALUCARD HOTPLUG)" name="cpu hotplugging" action="cpuhotplugging">
 			<spinnerItem name="MSM MPDECISION" value="1"/> 
 			<spinnerItem name="INTELLIPLUG" value="2"/> 
-			<spinnerItem name="ALUCARD HOTPLUG" value="3"/> 
+			<spinnerItem name="ALUCARD HOTPLUG" value="3"/>
+			<spinnerItem name="MSM HOTPLUG" value="4"/>
 		</spinner>
 
 		<button description="Use this button to push all new changes to CPU hotplugging system in real time! The sleep tuning will be auto added on screen off." name="Cpu Hotplug Policy Install" action="push-actions/cpu_tuning_hotplug" label="Push Tuning to cpu hotplugging core"/>
@@ -205,17 +208,17 @@
 
 		<seekBar description="Number of samples to evaluate cpu3 hotplug out. (Default: 4)" name="hotplug_rate_4_0" action="generic_cortex /tmp/hotplug_rate_4_0" unit="int" min="1" reversed="false" step="1" max="10"/>
 
-		<seekBar description="Up threshold frequency to turn second core On, when some other conditions is also met. ie If (minimum frequency greater than or equal to hotplug_freq 1 1) Hotplug IN Second Core. Higher value corresponds to delay in turning on second core. (Default: 1242.000 kHz)" name="hotplug_freq_1_1" action="generic_cortex /tmp/hotplug_freq_1_1" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Up threshold frequency to turn second core On, when some other conditions is also met. ie If (minimum frequency greater than or equal to hotplug_freq 1 1) Hotplug IN Second Core. Higher value corresponds to delay in turning on second core. (Default: 1242.000 kHz)" name="hotplug_freq_1_1" action="generic_cortex /tmp/hotplug_freq_1_1" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Down threshold frequency to turn second core Off, when some other conditions is also met. ie If (maximum frequency less than hotplug_freq 2 0) Hotplug OUT Second Core. Lower value corresponds to delay in turning off second core. (Default: 810.000 kHz)" name="hotplug_freq_2_0" action="generic_cortex /tmp/hotplug_freq_2_0" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Down threshold frequency to turn second core Off, when some other conditions is also met. ie If (maximum frequency less than hotplug_freq 2 0) Hotplug OUT Second Core. Lower value corresponds to delay in turning off second core. (Default: 810.000 kHz)" name="hotplug_freq_2_0" action="generic_cortex /tmp/hotplug_freq_2_0" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Up threshold frequency to turn third core On, when some other conditions is also met. ie If (minimum frequency greater than or equal to hotplug_freq 2 1) Hotplug IN Third Core. Higher value corresponds to delay in turning on Third core. (Default: 1566.000 kHz)" name="hotplug_freq_2_1" action="generic_cortex /tmp/hotplug_freq_2_1" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Up threshold frequency to turn third core On, when some other conditions is also met. ie If (minimum frequency greater than or equal to hotplug_freq 2 1) Hotplug IN Third Core. Higher value corresponds to delay in turning on Third core. (Default: 1566.000 kHz)" name="hotplug_freq_2_1" action="generic_cortex /tmp/hotplug_freq_2_1" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Down threshold frequency to turn third core Off, when some other conditions is also met. ie If (maximum frequency less than hotplug_freq 3 0) Hotplug OUT Third Core. Lower value corresponds to delay in turning off third core. (Default: 918.000 kHz)" name="hotplug_freq_3_0" action="generic_cortex /tmp/hotplug_freq_3_0" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Down threshold frequency to turn third core Off, when some other conditions is also met. ie If (maximum frequency less than hotplug_freq 3 0) Hotplug OUT Third Core. Lower value corresponds to delay in turning off third core. (Default: 918.000 kHz)" name="hotplug_freq_3_0" action="generic_cortex /tmp/hotplug_freq_3_0" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Up threshold frequency to turn fourth core On, when some other conditions is also met. ie If (minimum frequency greater than or equal to hotplug_freq 3 1) Hotplug IN Fourth Core. Higher value corresponds to delay in turning on Fourth core. (Default: 1674.000 kHz)" name="hotplug_freq_3_1" action="generic_cortex /tmp/hotplug_freq_3_1" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Up threshold frequency to turn fourth core On, when some other conditions is also met. ie If (minimum frequency greater than or equal to hotplug_freq 3 1) Hotplug IN Fourth Core. Higher value corresponds to delay in turning on Fourth core. (Default: 1674.000 kHz)" name="hotplug_freq_3_1" action="generic_cortex /tmp/hotplug_freq_3_1" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Down threshold frequency to turn fourth core Off, when some other conditions is also met. ie If (maximum frequency less than hotplug_freq 4 0) Hotplug OUT Fourth Core. Lower value corresponds to delay in turning off fourth core. (Default: 1026.000 kHz)" name="hotplug_freq_4_0" action="generic_cortex /tmp/hotplug_freq_4_0" unit="kHz" min="162000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Down threshold frequency to turn fourth core Off, when some other conditions is also met. ie If (maximum frequency less than hotplug_freq 4 0) Hotplug OUT Fourth Core. Lower value corresponds to delay in turning off fourth core. (Default: 1026.000 kHz)" name="hotplug_freq_4_0" action="generic_cortex /tmp/hotplug_freq_4_0" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
 		<seekBar description="The CPU load at which governor scales CPU up. Current Load equal or greater than up_load: CPU Hotplug IN. Value corresponding to 101 causes not HOTPLUG IN. (Default: 65%)" name="hotplug_load_1_1" action="generic_cortex /tmp/hotplug_load_1_1" unit="%" min="10" reversed="false" step="1" max="101"/>
 
@@ -244,6 +247,15 @@
 		<seekBar description="Max CPU's hotplugging limit. (Default: 4)" name="maxcoreslimit" action="generic_cortex /tmp/maxcoreslimit" unit="int" min="1" reversed="false" step="1" max="4"/>
 
 		<seekBar description="Max CPU's hotplugging limit. (Default: 1)" name="maxcoreslimit_sleep" action="generic_cortex /tmp/maxcoreslimit_sleep" unit="int" min="1" reversed="false" step="1" max="4"/>
+
+	</settingsPane>
+
+	<settingsPane description="Tune MSM Hotplug" name="MSM Hotplug Tuning">
+
+		<spinner description="MSM HotPlug additional CPU control, here you can tune how much cores will be active on high short load, default is 2 cores for 4sec, if you wish to save more power when using MSM HotPlug then best to use 1 core. or if performance is what you prefer then use 2 cores boost. Depend on MSM HotPlug selected!" name="MSM HotPlug Booster" action="generic /sys/module/msm_hotplug/cpus_boosted">
+			<spinnerItem name="One Core Boosted" value="1"/> 
+			<spinnerItem name="Two Cores Boosted" value="2"/> 
+		</spinner>
 
 	</settingsPane>
 
@@ -297,25 +309,25 @@
 			<spinnerItem name="simple" value="simple"/> 
 		</spinner>
 
-		<spinner description="This it is the max value of GPU frequency. (Default: 450.000.000 Hz)" name="GPU Max Frequency" action="generic /sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_pwrlevel">
-			<spinnerItem name="450.000.000" value="0"/>
-			<spinnerItem name="320.000.000" value="1"/>
-			<spinnerItem name="200.000.000" value="2"/>
-			<spinnerItem name="128.000.000" value="3"/>
+		<spinner description="This it is the max value of GPU frequency. (Default: 450.000 KHz)" name="GPU Max Frequency" action="generic /sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_pwrlevel">
+			<spinnerItem name="450.000 KHz" value="0"/>
+			<spinnerItem name="320.000 KHz" value="1"/>
+			<spinnerItem name="200.000 KHz" value="2"/>
+			<spinnerItem name="128.000 KHz" value="3"/>
 		</spinner>
 
-		<spinner description="This it is the min value of GPU frequency. (Default: 128.000.000 Hz)" name="GPU Min Frequency" action="generic /sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/min_pwrlevel">
-			<spinnerItem name="450.000.000" value="0"/>
-			<spinnerItem name="320.000.000" value="1"/>
-			<spinnerItem name="200.000.000" value="2"/>
-			<spinnerItem name="128.000.000" value="3"/>
+		<spinner description="This it is the min value of GPU frequency. (Default: 128.000 KHz)" name="GPU Min Frequency" action="generic /sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/min_pwrlevel">
+			<spinnerItem name="450.000 KHz" value="0"/>
+			<spinnerItem name="320.000 KHz" value="1"/>
+			<spinnerItem name="200.000 KHz" value="2"/>
+			<spinnerItem name="128.000 KHz" value="3"/>
 		</spinner>
 
-		<spinner description="This it is the thermal value of GPU frequency. (Default: 450.000.000 Hz)" name="GPU thermal Frequency" action="generic /sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/thermal_pwrlevel">
-			<spinnerItem name="450.000.000" value="0"/>
-			<spinnerItem name="320.000.000" value="1"/>
-			<spinnerItem name="200.000.000" value="2"/>
-			<spinnerItem name="128.000.000" value="3"/>
+		<spinner description="This it is the thermal value of GPU frequency. (Default: 450.000 KHz)" name="GPU thermal Frequency" action="generic /sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/thermal_pwrlevel">
+			<spinnerItem name="450.000 KHz" value="0"/>
+			<spinnerItem name="320.000 KHz" value="1"/>
+			<spinnerItem name="200.000 KHz" value="2"/>
+			<spinnerItem name="128.000 KHz" value="3"/>
 		</spinner>
 
 	</settingsPane>
@@ -368,7 +380,7 @@
 			<spinnerItem name="2560 kB" value="2560"/> 
 		</spinner>
 
-		<spinner description="This will set the default AWAKE IO scheduler for internal sdcard. (Default: CFQ)" name="Default Awake IO Scheduler Int." action="iosched internal /sys/block/mmcblk0/queue/scheduler">
+		<spinner description="This will set the default AWAKE IO scheduler for internal sdcard. (Default: ROW)" name="Default Awake IO Scheduler Int." action="iosched internal /sys/block/mmcblk0/queue/scheduler">
 			<spinnerItem name="BFQ" value="bfq"/>
 			<spinnerItem name="CFQ" value="cfq"/> 
 			<spinnerItem name="DEADLINE" value="deadline"/> 
@@ -381,7 +393,7 @@
 			<spinnerItem name="ZEN" value="zen"/> 
 		</spinner>
 
-		<spinner description="This will set the default AWAKE IO scheduler for external sdcard. (Default: CFQ)" name="Default Awake IO Scheduler Ext." action="iosched sd /sys/block/mmcblk1/queue/scheduler">
+		<spinner description="This will set the default AWAKE IO scheduler for external sdcard. (Default: ROW)" name="Default Awake IO Scheduler Ext." action="iosched sd /sys/block/mmcblk1/queue/scheduler">
 			<spinnerItem name="BFQ" value="bfq"/>
 			<spinnerItem name="CFQ" value="cfq"/> 
 			<spinnerItem name="DEADLINE" value="deadline"/> 
@@ -394,7 +406,7 @@
 			<spinnerItem name="ZEN" value="zen"/> 
 		</spinner>
 
-		<spinner description="This will set the DEEPSLEEP IO scheduler for internal sdcard. (Default: CFQ) !!! Depends on CortexBrain-Background-Process !!!" name="DEEPSLEEP IO Scheduler Int." action="generic_cortex /tmp/internal_iosched_sleep">
+		<spinner description="This will set the DEEPSLEEP IO scheduler for internal sdcard. (Default: ROW) !!! Depends on CortexBrain-Background-Process !!!" name="DEEPSLEEP IO Scheduler Int." action="generic_cortex /tmp/internal_iosched_sleep">
 			<spinnerItem name="BFQ" value="bfq"/>
 			<spinnerItem name="CFQ" value="cfq"/> 
 			<spinnerItem name="DEADLINE" value="deadline"/> 
@@ -407,7 +419,7 @@
 			<spinnerItem name="ZEN" value="zen"/> 
 		</spinner>
 
-		<spinner description="This will set the DEEPSLEEP IO scheduler for external sdcard. (Default: CFQ) !!! Depends on CortexBrain-Background-Process !!!" name="DEEPSLEEP IO Scheduler Ext." action="generic_cortex /tmp/sd_iosched_sleep">
+		<spinner description="This will set the DEEPSLEEP IO scheduler for external sdcard. (Default: ROW) !!! Depends on CortexBrain-Background-Process !!!" name="DEEPSLEEP IO Scheduler Ext." action="generic_cortex /tmp/sd_iosched_sleep">
 			<spinnerItem name="BFQ" value="bfq"/>
 			<spinnerItem name="CFQ" value="cfq"/> 
 			<spinnerItem name="DEADLINE" value="deadline"/> 
@@ -549,11 +561,36 @@
 
 	</settingsPane>
 
+	<settingsPane description="Enable using Android phone as USB and Keyboard for your PC!, lets say you dont have keyboard and you really need one! connect your phone via usb get app named USB KEYBOARD, enable the tweak here, and have fun!" name="Android USB HID Device">
+
+		<spinner description="Enable or Disable USB HID Device driver to control PC keyboard and mouse from phone!" name="USB HID Device" action="usb_keyboard">
+			<spinnerItem name="Enable USB HID" value="enable"/> 
+			<spinnerItem name="Disable USB HID" value="disable"/> 
+		</spinner>
+
+	</settingsPane>
+
 	<settingsPane description="FS tweaks" name="FS tweaks">
 
 		<spinner description="Here, It is possible to enable or disable DYNAMIC FSYNC! (Default: Enabled)" name="Dyn_fsync_active" action="generic /sys/kernel/dyn_fsync/Dyn_fsync_active">
 			<spinnerItem name="Enabled" value="1"/> 
 			<spinnerItem name="Disabled" value="0"/> 
+		</spinner>
+
+	</settingsPane>
+
+</settingsTab>
+
+<settingsTab name="TCP Congestion Control">
+
+	<settingsPane description="Transmission Control Protocol (TCP) uses a network congestion-avoidance algorithm that includes various aspects of an additive increase|multiplicative decrease (AIMD) scheme, with other schemes such as slow-start to achieve congestion avoidance. The TCP congestion-avoidance algorithm is the primary basis for congestion control in the Internet." name="TCP Congestion control tweaks">
+
+		<spinner description="Set TCP algorithm. (Default: Cubic)" name="tcp_congestion_control" action="generic /proc/sys/net/ipv4/tcp_congestion_control">
+			<spinnerItem name="BIC" value="bic"/> 
+			<spinnerItem name="CUBIC" value="cubic"/>
+			<spinnerItem name="HTCP" value="htcp"/>
+			<spinnerItem name="RENO" value="reno"/>
+			<spinnerItem name="WESTWOOD" value="westwood"/>
 		</spinner>
 
 	</settingsPane>
@@ -584,14 +621,6 @@
 		<checkbox description="Enable or Disable the Wifi turns off while screen is off function. !!! Depends on CortexBrain-Background-Process !!!" name="Auto-Wifi" action="generic_cortex /tmp/cortexbrain_auto_tweak_wifi" label="Force Auto-Wifi"/>
 
 		<seekBar description="Set a delay before WIFI is forced to OFF when screen is turned off. !!! Depends on CortexBrain-Auto-Wifi !!!" name="WIFI Turn Off Delay (in sec)" action="generic_cortex /tmp/cortexbrain_auto_tweak_wifi_sleep_delay" unit="sec" min="0" reversed="false" step="30" max="300"/>
-
-		<checkbox description="Enable or Disable ICMP only Firewall-Tweaks (reboot needed)." name="Firewall-Tweaks" action="generic_cortex /tmp/cortexbrain_firewall" label="Firewall-Tweaks"/>
-
-		<checkbox description="Enable or Disable TCP-Tweaks (reboot needed)." name="TCP-Tweaks" action="generic_cortex /tmp/cortexbrain_tcp" label="TCP-Tweaks"/>
-
-		<checkbox description="Enable or Disable TCP-RAM-Tweaks (reboot needed)." name="TCP-RAM-Tweaks" action="generic_cortex /tmp/cortexbrain_tcp_ram" label="TCP-RAM-Tweaks"/>
-
-		<checkbox description="Enable or Disable IPv6 Network. !!! Depends on CortexBrain-Background-Process !!!" name="IPv6 Tweaks" action="generic_cortex /tmp/cortexbrain_ipv6" label="IPv6"/>
 
 		<checkbox description="Enable or Disable Memory-Tweaks (reboot needed)." name="Memory-Tweaks" action="generic_cortex /tmp/cortexbrain_memory" label="Memory-Tweaks"/>
 
@@ -653,6 +682,18 @@
 
 </settingsTab>
 
+<settingsTab name="KERNEL THREAD and DONATION">
+
+	<settingsPane description="@XDA Kernel Thread and Donation" name="@XDA Thread-Donation">
+
+		<button description="Kernel thread on XDA" name="Kernel-Thread" action="push-actions/kernelxda" label="KERNEL-THREAD"/>
+
+		<button description="If you like my work, donate clicking here" name="Donation" action="push-actions/donation" label="DONATION"/>
+
+	</settingsPane>
+
+</settingsTab>
+
 <settingsTab name="BUG-REPORT">
 
 	<settingsPane description="Debug to SD-Card sdcard" name="Bug-Report">
@@ -665,6 +706,5 @@
 
 </settingsTab>
 
-<!--force profiles reset- version 1.2-->
-
 </settingsRoot>
+
