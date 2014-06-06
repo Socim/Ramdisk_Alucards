@@ -95,7 +95,7 @@
 			<spinnerItem name="pegasusq" value="pegasusq"/> 
 		</spinner>
 
-		<button description="Use this button to push all new changes to the governor in real time! The sleep tuning will be auto added on screen off, to screen off governor." name="GOV Policy Install" action="push-actions/cpu_tuning_update" label="Push CPU Tuning To GOV Core"/>
+		<button description="Use this button to push all new changes to the governor in real time! The sleep tuning will be auto added on screen off, to screen off governor." name="GOV Policy Install" action="push-actions/cpu_tuning_update" label="Apply settings to GOV core"/>
 
 	</settingsPane>
 
@@ -131,7 +131,7 @@
 
 		<seekBar description="When current freq is greater than freq_for_responsiviness_max, freq_step_dec will be equal to freq_step_dec_at_max_freq. (Only for Nightmare). (Default: 1890.000 kHz)" name="freq_for_responsiveness_max" action="generic_cortex /tmp/freq_for_responsiveness_max" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Until freq_responsiveness, Up Threshold considered for sampling load is inc_cpu_load_at_min_freq. Also during the part where CPU is at maximum load frequency, governor need to find the optimal frequency as the next frequency - which should not trigger up_threshold in the next sampling. When such a frequency_next is found to be a) less than freq_responsiveness b) will not trigger down_threshold in the next sample, then the optimal frequency is set to freq_responsiveness. (Only for Alucard) (Default: 918.000 kHz)" name="freq_responsiveness" action="generic_cortex /tmp/freq_responsiveness" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Until freq_responsiveness, Up Threshold considered for sampling load is inc_cpu_load_at_min_freq. Also during the part where CPU is at maximum load frequency, governor need to find the optimal frequency as the next frequency - which should not trigger up_threshold in the next sampling. When such a frequency_next is found to be a) less than freq_responsiveness b) will not trigger down_threshold in the next sample, then the optimal frequency is set to freq_responsiveness. (Only for Alucard) (Default: 810.000 kHz)" name="freq_responsiveness" action="generic_cortex /tmp/freq_responsiveness" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
 		<seekBar description="Governor should increase CPU frequency by n step each time CPU load reaches inc_cpu_load. (Only for Alucard) (Default: 2)" name="pump_inc_step" action="generic_cortex /tmp/pump_inc_step" unit="step" min="1" reversed="false" step="1" max="3"/>
 
@@ -172,7 +172,7 @@
 			<spinnerItem name="MSM HOTPLUG" value="4"/>
 		</spinner>
 
-		<button description="Use this button to push all new changes to CPU hotplugging system in real time! The sleep tuning will be auto added on screen off." name="Cpu Hotplug Policy Install" action="push-actions/cpu_tuning_hotplug" label="Push Tuning to cpu hotplugging core"/>
+		<button description="Use this button to push all new changes to CPU hotplugging system in real time! The sleep tuning will be auto added on screen off." name="Cpu Hotplug Policy Install" action="push-actions/cpu_tuning_hotplug" label="Apply settings to HOTPLUG core"/>
 
 	</settingsPane>
 
@@ -192,59 +192,59 @@
 
 	<settingsPane description="Tune alucard hotplug" name="alucard hotplug Tuning">
 
-		<seekBar description="Sampling Interval, measured in ms. This factor determines how often the governor should poll for CPU usage in terms of frequency and load percentage to make hotplugging decisions. (Default: 60 ms)" name="hotplug_sampling_rate" action="generic_cortex /tmp/hotplug_sampling_rate" unit="ms" min="10" reversed="false" step="5" max="100"/>
+		<seekBar description="Sampling Interval, measured in ms. This factor determines how often the governor should poll for CPU usage in terms of frequency and load percentage to make hotplugging decisions. (Default: 60 ms)" name="hotplug_sampling_rate" action="generic /sys/kernel/alucard_hotplug/hotplug_sampling_rate" unit="ms" min="10" reversed="false" step="5" max="100"/>
 
-		<seekBar description="Number of samples to evaluate cpu1 hotplug in. (Default: 1)" name="hotplug_rate_1_1" action="generic_cortex /tmp/hotplug_rate_1_1" unit="int" min="1" reversed="false" step="1" max="10"/>
+		<seekBar description="Number of samples to evaluate cpu1 hotplug in. (Default: 1)" name="hotplug_rate_1_1" action="generic /sys/kernel/alucard_hotplug/hotplug_rate_1_1" unit="int" min="1" reversed="false" step="1" max="10"/>
 
-		<seekBar description="Number of samples to evaluate cpu1 hotplug out. (Default: 4)" name="hotplug_rate_2_0" action="generic_cortex /tmp/hotplug_rate_2_0" unit="int" min="1" reversed="false" step="1" max="10"/>
+		<seekBar description="Number of samples to evaluate cpu1 hotplug out. (Default: 4)" name="hotplug_rate_2_0" action="generic /sys/kernel/alucard_hotplug/hotplug_rate_2_0" unit="int" min="1" reversed="false" step="1" max="10"/>
 
-		<seekBar description="Number of samples to evaluate cpu2 hotplug in. (Default: 2)" name="hotplug_rate_2_1" action="generic_cortex /tmp/hotplug_rate_2_1" unit="int" min="1" reversed="false" step="1" max="10"/>
+		<seekBar description="Number of samples to evaluate cpu2 hotplug in. (Default: 2)" name="hotplug_rate_2_1" action="generic /sys/kernel/alucard_hotplug/hotplug_rate_2_1" unit="int" min="1" reversed="false" step="1" max="10"/>
 
-		<seekBar description="Number of samples to evaluate cpu2 hotplug out. (Default: 4)" name="hotplug_rate_3_0" action="generic_cortex /tmp/hotplug_rate_3_0" unit="int" min="1" reversed="false" step="1" max="10"/>
+		<seekBar description="Number of samples to evaluate cpu2 hotplug out. (Default: 4)" name="hotplug_rate_3_0" action="generic /sys/kernel/alucard_hotplug/hotplug_rate_3_0" unit="int" min="1" reversed="false" step="1" max="10"/>
 
-		<seekBar description="Number of samples to evaluate cpu3 hotplug in. (Default: 2)" name="hotplug_rate_3_1" action="generic_cortex /tmp/hotplug_rate_3_1" unit="int" min="1" reversed="false" step="1" max="10"/>
+		<seekBar description="Number of samples to evaluate cpu3 hotplug in. (Default: 2)" name="hotplug_rate_3_1" action="generic /sys/kernel/alucard_hotplug/hotplug_rate_3_1" unit="int" min="1" reversed="false" step="1" max="10"/>
 
-		<seekBar description="Number of samples to evaluate cpu3 hotplug out. (Default: 4)" name="hotplug_rate_4_0" action="generic_cortex /tmp/hotplug_rate_4_0" unit="int" min="1" reversed="false" step="1" max="10"/>
+		<seekBar description="Number of samples to evaluate cpu3 hotplug out. (Default: 4)" name="hotplug_rate_4_0" action="generic /sys/kernel/alucard_hotplug/hotplug_rate_4_0" unit="int" min="1" reversed="false" step="1" max="10"/>
 
-		<seekBar description="Up threshold frequency to turn second core On, when some other conditions is also met. ie If (minimum frequency greater than or equal to hotplug_freq 1 1) Hotplug IN Second Core. Higher value corresponds to delay in turning on second core. (Default: 1242.000 kHz)" name="hotplug_freq_1_1" action="generic_cortex /tmp/hotplug_freq_1_1" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Up threshold frequency to turn second core On, when some other conditions is also met. ie If (minimum frequency greater than or equal to hotplug_freq 1 1) Hotplug IN Second Core. Higher value corresponds to delay in turning on second core. (Default: 1242.000 kHz)" name="hotplug_freq_1_1" action="genericfreq /sys/kernel/alucard_hotplug/hotplug_freq_1_1" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Down threshold frequency to turn second core Off, when some other conditions is also met. ie If (maximum frequency less than hotplug_freq 2 0) Hotplug OUT Second Core. Lower value corresponds to delay in turning off second core. (Default: 810.000 kHz)" name="hotplug_freq_2_0" action="generic_cortex /tmp/hotplug_freq_2_0" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Down threshold frequency to turn second core Off, when some other conditions is also met. ie If (maximum frequency less than hotplug_freq 2 0) Hotplug OUT Second Core. Lower value corresponds to delay in turning off second core. (Default: 810.000 kHz)" name="hotplug_freq_2_0" action="genericfreq /sys/kernel/alucard_hotplug/hotplug_freq_2_0" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Up threshold frequency to turn third core On, when some other conditions is also met. ie If (minimum frequency greater than or equal to hotplug_freq 2 1) Hotplug IN Third Core. Higher value corresponds to delay in turning on Third core. (Default: 1566.000 kHz)" name="hotplug_freq_2_1" action="generic_cortex /tmp/hotplug_freq_2_1" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Up threshold frequency to turn third core On, when some other conditions is also met. ie If (minimum frequency greater than or equal to hotplug_freq 2 1) Hotplug IN Third Core. Higher value corresponds to delay in turning on Third core. (Default: 1566.000 kHz)" name="hotplug_freq_2_1" action="genericfreq /sys/kernel/alucard_hotplug/hotplug_freq_2_1" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Down threshold frequency to turn third core Off, when some other conditions is also met. ie If (maximum frequency less than hotplug_freq 3 0) Hotplug OUT Third Core. Lower value corresponds to delay in turning off third core. (Default: 918.000 kHz)" name="hotplug_freq_3_0" action="generic_cortex /tmp/hotplug_freq_3_0" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Down threshold frequency to turn third core Off, when some other conditions is also met. ie If (maximum frequency less than hotplug_freq 3 0) Hotplug OUT Third Core. Lower value corresponds to delay in turning off third core. (Default: 918.000 kHz)" name="hotplug_freq_3_0" action="genericfreq /sys/kernel/alucard_hotplug/hotplug_freq_3_0" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Up threshold frequency to turn fourth core On, when some other conditions is also met. ie If (minimum frequency greater than or equal to hotplug_freq 3 1) Hotplug IN Fourth Core. Higher value corresponds to delay in turning on Fourth core. (Default: 1674.000 kHz)" name="hotplug_freq_3_1" action="generic_cortex /tmp/hotplug_freq_3_1" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Up threshold frequency to turn fourth core On, when some other conditions is also met. ie If (minimum frequency greater than or equal to hotplug_freq 3 1) Hotplug IN Fourth Core. Higher value corresponds to delay in turning on Fourth core. (Default: 1674.000 kHz)" name="hotplug_freq_3_1" action="genericfreq /sys/kernel/alucard_hotplug/hotplug_freq_3_1" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Down threshold frequency to turn fourth core Off, when some other conditions is also met. ie If (maximum frequency less than hotplug_freq 4 0) Hotplug OUT Fourth Core. Lower value corresponds to delay in turning off fourth core. (Default: 1026.000 kHz)" name="hotplug_freq_4_0" action="generic_cortex /tmp/hotplug_freq_4_0" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Down threshold frequency to turn fourth core Off, when some other conditions is also met. ie If (maximum frequency less than hotplug_freq 4 0) Hotplug OUT Fourth Core. Lower value corresponds to delay in turning off fourth core. (Default: 1026.000 kHz)" name="hotplug_freq_4_0" action="genericfreq /sys/kernel/alucard_hotplug/hotplug_freq_4_0" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="The CPU load at which governor scales CPU up. Current Load equal or greater than up_load: CPU Hotplug IN. Value corresponding to 101 causes not HOTPLUG IN. (Default: 65%)" name="hotplug_load_1_1" action="generic_cortex /tmp/hotplug_load_1_1" unit="%" min="10" reversed="false" step="1" max="101"/>
+		<seekBar description="The CPU load at which governor scales CPU up. Current Load equal or greater than up_load: CPU Hotplug IN. Value corresponding to 101 causes not HOTPLUG IN. (Default: 60%)" name="hotplug_load_1_1" action="generic /sys/kernel/alucard_hotplug/hotplug_load_1_1" unit="%" min="10" reversed="false" step="1" max="101"/>
 
-		<seekBar description="The CPU load at which governor scales CPU down. Current Load less than down_load and CPU online greater than 1: CPU Hotplug OUT. Value corresponding to 101 causes immediately HOTPLUG OUT. (Default: 30%)" name="hotplug_load_2_0" action="generic_cortex /tmp/hotplug_load_2_0" unit="%" min="0" reversed="false" step="1" max="101"/>
+		<seekBar description="The CPU load at which governor scales CPU down. Current Load less than down_load and CPU online greater than 1: CPU Hotplug OUT. Value corresponding to 101 causes immediately HOTPLUG OUT. (Default: 30%)" name="hotplug_load_2_0" action="generic /sys/kernel/alucard_hotplug/hotplug_load_2_0" unit="%" min="0" reversed="false" step="1" max="101"/>
 
-		<seekBar description="The CPU load at which governor scales CPU up. Current Load equal or greater than up_load: CPU Hotplug IN. Value corresponding to 101 causes not HOTPLUG IN. (Default: 65%)" name="hotplug_load_2_1" action="generic_cortex /tmp/hotplug_load_2_1" unit="%" min="10" reversed="false" step="1" max="101"/>
+		<seekBar description="The CPU load at which governor scales CPU up. Current Load equal or greater than up_load: CPU Hotplug IN. Value corresponding to 101 causes not HOTPLUG IN. (Default: 65%)" name="hotplug_load_2_1" action="generic /sys/kernel/alucard_hotplug/hotplug_load_2_1" unit="%" min="10" reversed="false" step="1" max="101"/>
 
-		<seekBar description="The CPU load at which governor scales CPU down. Current Load less than down_load and CPU online greater than 1: CPU Hotplug OUT. Value corresponding to 101 causes immediately HOTPLUG OUT. (Default: 30%)" name="hotplug_load_3_0" action="generic_cortex /tmp/hotplug_load_3_0" unit="%" min="0" reversed="false" step="1" max="101"/>
+		<seekBar description="The CPU load at which governor scales CPU down. Current Load less than down_load and CPU online greater than 1: CPU Hotplug OUT. Value corresponding to 101 causes immediately HOTPLUG OUT. (Default: 30%)" name="hotplug_load_3_0" action="generic /sys/kernel/alucard_hotplug/hotplug_load_3_0" unit="%" min="0" reversed="false" step="1" max="101"/>
 
-		<seekBar description="The CPU load at which governor scales CPU up. Current Load equal or greater than up_load: CPU Hotplug IN. Value corresponding to 101 causes not HOTPLUG IN. (Default: 65%)" name="hotplug_load_3_1" action="generic_cortex /tmp/hotplug_load_3_1" unit="%" min="10" reversed="false" step="1" max="101"/>
+		<seekBar description="The CPU load at which governor scales CPU up. Current Load equal or greater than up_load: CPU Hotplug IN. Value corresponding to 101 causes not HOTPLUG IN. (Default: 65%)" name="hotplug_load_3_1" action="generic /sys/kernel/alucard_hotplug/hotplug_load_3_1" unit="%" min="10" reversed="false" step="1" max="101"/>
 
-		<seekBar description="The CPU load at which governor scales CPU down. Current Load less than down_load and CPU online greater than 1: CPU Hotplug OUT. Value corresponding to 101 causes immediately HOTPLUG OUT. (Default: 30%)" name="hotplug_load_4_0" action="generic_cortex /tmp/hotplug_load_4_0" unit="%" min="0" reversed="false" step="1" max="101"/>
+		<seekBar description="The CPU load at which governor scales CPU down. Current Load less than down_load and CPU online greater than 1: CPU Hotplug OUT. Value corresponding to 101 causes immediately HOTPLUG OUT. (Default: 30%)" name="hotplug_load_4_0" action="generic /sys/kernel/alucard_hotplug/hotplug_load_4_0" unit="%" min="0" reversed="false" step="1" max="101"/>
 
-		<seekBar description="Threshold run queue length for second core to turn on. (Default: 100)" name="hotplug_rq_1_1" action="generic_cortex /tmp/hotplug_rq_1_1" unit="uint" min="0" reversed="false" step="100" max="1200"/>
+		<seekBar description="Threshold run queue length for second core to turn on. (Default: 100)" name="hotplug_rq_1_1" action="generic /sys/kernel/alucard_hotplug/hotplug_rq_1_1" unit="uint" min="0" reversed="false" step="100" max="1200"/>
 
-		<seekBar description="Threshold run queue length for second core to turn off. (Default: 100)" name="hotplug_rq_2_0" action="generic_cortex /tmp/hotplug_rq_2_0" unit="uint" min="0" reversed="false" step="100" max="1200"/>
+		<seekBar description="Threshold run queue length for second core to turn off. (Default: 100)" name="hotplug_rq_2_0" action="generic /sys/kernel/alucard_hotplug/hotplug_rq_2_0" unit="uint" min="0" reversed="false" step="100" max="1200"/>
 
-		<seekBar description="Threshold run queue length for third core to turn on. (Default: 200)" name="hotplug_rq_2_1" action="generic_cortex /tmp/hotplug_rq_2_1" unit="uint" min="0" reversed="false" step="100" max="1200"/>
+		<seekBar description="Threshold run queue length for third core to turn on. (Default: 200)" name="hotplug_rq_2_1" action="generic /sys/kernel/alucard_hotplug/hotplug_rq_2_1" unit="uint" min="0" reversed="false" step="100" max="1200"/>
 
-		<seekBar description="Threshold run queue length for third core to turn off. (Default: 200)" name="hotplug_rq_3_0" action="generic_cortex /tmp/hotplug_rq_3_0" unit="uint" min="0" reversed="false" step="100" max="1200"/>
+		<seekBar description="Threshold run queue length for third core to turn off. (Default: 200)" name="hotplug_rq_3_0" action="generic /sys/kernel/alucard_hotplug/hotplug_rq_3_0" unit="uint" min="0" reversed="false" step="100" max="1200"/>
 
-		<seekBar description="Threshold run queue length for fourth core to turn on. (Default: 300)" name="hotplug_rq_3_1" action="generic_cortex /tmp/hotplug_rq_3_1" unit="uint" min="0" reversed="false" step="100" max="1200"/>
+		<seekBar description="Threshold run queue length for fourth core to turn on. (Default: 300)" name="hotplug_rq_3_1" action="generic /sys/kernel/alucard_hotplug/hotplug_rq_3_1" unit="uint" min="0" reversed="false" step="100" max="1200"/>
 
-		<seekBar description="Threshold run queue length for fourth core to turn off. (Default: 300)" name="hotplug_rq_4_0" action="generic_cortex /tmp/hotplug_rq_4_0" unit="uint" min="0" reversed="false" step="100" max="1200"/>
+		<seekBar description="Threshold run queue length for fourth core to turn off. (Default: 300)" name="hotplug_rq_4_0" action="generic /sys/kernel/alucard_hotplug/hotplug_rq_4_0" unit="uint" min="0" reversed="false" step="100" max="1200"/>
 
-		<seekBar description="Max CPU's hotplugging limit. (Default: 4)" name="maxcoreslimit" action="generic_cortex /tmp/maxcoreslimit" unit="int" min="1" reversed="false" step="1" max="4"/>
+		<seekBar description="Max CPU's hotplugging limit. (Default: 4)" name="maxcoreslimit" action="generic /sys/kernel/alucard_hotplug/maxcoreslimit" unit="int" min="1" reversed="false" step="1" max="4"/>
 
-		<seekBar description="Max CPU's hotplugging limit. (Default: 1)" name="maxcoreslimit_sleep" action="generic_cortex /tmp/maxcoreslimit_sleep" unit="int" min="1" reversed="false" step="1" max="4"/>
+		<seekBar description="Max CPU's hotplugging limit. (Default: 1)" name="maxcoreslimit_sleep" action="generic /sys/kernel/alucard_hotplug/maxcoreslimit_sleep" unit="int" min="1" reversed="false" step="1" max="4"/>
 
 	</settingsPane>
 
@@ -479,6 +479,109 @@
 
 </settingsTab>
 
+<settingsTab name="Sound">
+
+	<settingsPane name="Sound Control" description="Sound Control">		  
+      
+		<seekBar description="Headphone gain. Default: 40" 
+				name="Headphone gain" 
+				action="generic_double /sys/kernel/sound_control/gpl_headphone_gain"
+				unit="" min="20" reversed="false" step="1" max="60"/>
+
+		<seekBar description="Headphone PowerAmp gain. Default: 12" 
+				name="Headphone PA gain" 
+				action="generic_double /sys/kernel/sound_control/gpl_headphone_pa_gain"
+				unit="" min="10" reversed="false" step="1" max="30"/>
+
+		<seekBar description="Speaker gain. Default: 40" 
+				name="Speaker gain" 
+				action="generic /sys/kernel/sound_control/gpl_speaker_gain"
+				unit="" min="20" reversed="false" step="1" max="60"/>
+
+		<seekBar description="HDMI Speaker gain. Default: 40"
+				name="HDMI Speaker gain" 
+				action="generic /sys/kernel/sound_control/gpl_hdmi_spkr_gain"
+				unit="" min="20" reversed="false" step="1" max="60"/>
+
+		<seekBar description="General Mic gain. Default: 40" 
+				name="General Mic gain" 
+				action="generic /sys/kernel/sound_control/gpl_mic_gain"
+				unit="" min="20" reversed="false" step="1" max="60"/>
+
+		<seekBar description="Camera Mic gain. Default: 40" 
+				name="Camera Mic gain" 
+				action="generic /sys/kernel/sound_control/gpl_cam_mic_gain"
+				unit="" min="20" reversed="false" step="1" max="60"/>
+
+		<seekBar description="Headset Mic gain. Default: 40" 
+				name="Headset Mic gain" 
+				action="generic /sys/kernel/sound_control/gpl_headset_mic_gain"
+				unit="" min="20" reversed="false" step="1" max="60"/>
+
+	</settingsPane>
+
+</settingsTab>
+
+<settingsTab name="AC|USB Charging Control">
+
+	<settingsPane description="AC and USB charging control" name="AC and USB charging control">
+
+		<spinner description="This will force fast charging! (Disabled: Disabled | Enabled: Substitute AC to USB | Custom: Use custom mA configured) (Default: Disabled)" name="Force Fast Charging" action="generic /sys/kernel/fast_charge/force_fast_charge">
+			<spinnerItem name="Disabled" value="0"/>
+			<spinnerItem name="Enabled" value="1"/>
+			<spinnerItem name="Custom" value="2"/>
+		</spinner>
+
+		<spinner description="When enabled, mtp can be used during fast_charge. (Default: Enabled)" name="Use MTP during Fast Charging" action="generic /sys/kernel/fast_charge/use_mtp_during_fast_charge">
+			<spinnerItem name="Disabled" value="0"/>
+			<spinnerItem name="Enabled" value="1"/>
+		</spinner>
+
+		<spinner description="Screen on current limit. (Default: Enabled)" name="Screen on current limit" action="generic /sys/kernel/fast_charge/screen_on_current_limit">
+			<spinnerItem name="Disabled" value="0"/>
+			<spinnerItem name="Enabled" value="1"/>
+		</spinner>
+
+		<spinner description="Rate at which to charge when on AC (500 mA each hour to 2100 mA each hour). (Default: 1900 mA)" name="AC Charge Level" action="generic /sys/kernel/fast_charge/ac_charge_level">
+			<spinnerItem name="500 mA" value="500"/>
+			<spinnerItem name="1000 mA" value="1000"/>
+			<spinnerItem name="1450 mA" value="1450"/>
+			<spinnerItem name="1900 mA" value="1900"/>
+			<spinnerItem name="2100 mA" value="2100"/>
+		</spinner>
+
+		<spinner description="Rate at which to charge when on USB (460 mA each hour to 1000 mA each hour). (Default: 460 mA)" name="USB Charge Level" action="generic /sys/kernel/fast_charge/usb_charge_level">
+			<spinnerItem name="460 mA" value="460"/>
+			<spinnerItem name="700 mA" value="700"/>
+			<spinnerItem name="1000 mA" value="1000"/>
+		</spinner>
+
+		<spinner description="When disabled allow anything up to 2100 mA each hour to be used as AC and USB custom current. It is recommended to keep it ENABLED!!!!!. (Default: Enabled)" name="Fail safe" action="generic /sys/kernel/fast_charge/failsafe">
+			<spinnerItem name="Disabled" value="0"/>
+			<spinnerItem name="Enabled" value="1"/>
+		</spinner>
+
+	</settingsPane>
+
+</settingsTab>
+
+<settingsTab name="TCP Congestion Control">
+
+	<settingsPane description="Transmission Control Protocol (TCP) uses a network congestion-avoidance algorithm that includes various aspects of an additive increase|multiplicative decrease (AIMD) scheme, with other schemes such as slow-start to achieve congestion avoidance. The TCP congestion-avoidance algorithm is the primary basis for congestion control in the Internet." name="TCP Congestion control tweaks">
+
+		<spinner description="Set TCP algorithm. (Default: Cubic)" name="tcp_congestion_control" action="generic /proc/sys/net/ipv4/tcp_congestion_control">
+			<spinnerItem name="BIC" value="bic"/> 
+			<spinnerItem name="CUBIC" value="cubic"/>
+			<spinnerItem name="HTCP" value="htcp"/>
+			<spinnerItem name="HYBLA" value="hybla"/>
+			<spinnerItem name="RENO" value="reno"/>
+			<spinnerItem name="WESTWOOD" value="westwood"/>
+		</spinner>
+
+	</settingsPane>
+
+</settingsTab>
+
 <settingsTab name="Other">
 
 	<settingsPane description="Set some settings and options for your apps." name="Apps">
@@ -538,11 +641,6 @@
 
 		<seekBar description="Vibration force level. (Default: 75)" name="Vibration force" action="generic /sys/devices/virtual/timed_output/vibrator/pwm_value" unit="%" min="0" reversed="false" step="5" max="100"/>
 
-		<spinner description="This will force fast charging if it is enabled. If it is enabled, USB MTP will be disabled! (Default: Disabled)" name="Force Fast Charging" action="generic /sys/kernel/fast_charge/force_fast_charge">
-			<spinnerItem name="Enabled" value="1"/> 
-			<spinnerItem name="Disabled" value="0"/> 
-		</spinner>
-
 	</settingsPane>
 
 	<settingsPane description="USB and SDCARD settings and options." name="USB - SDCARD">
@@ -579,23 +677,7 @@
 
 </settingsTab>
 
-<settingsTab name="TCP Congestion Control">
-
-	<settingsPane description="Transmission Control Protocol (TCP) uses a network congestion-avoidance algorithm that includes various aspects of an additive increase|multiplicative decrease (AIMD) scheme, with other schemes such as slow-start to achieve congestion avoidance. The TCP congestion-avoidance algorithm is the primary basis for congestion control in the Internet." name="TCP Congestion control tweaks">
-
-		<spinner description="Set TCP algorithm. (Default: Cubic)" name="tcp_congestion_control" action="generic /proc/sys/net/ipv4/tcp_congestion_control">
-			<spinnerItem name="BIC" value="bic"/> 
-			<spinnerItem name="CUBIC" value="cubic"/>
-			<spinnerItem name="HTCP" value="htcp"/>
-			<spinnerItem name="RENO" value="reno"/>
-			<spinnerItem name="WESTWOOD" value="westwood"/>
-		</spinner>
-
-	</settingsPane>
-
-</settingsTab>
-
-<settingsTab name="Tweaks">
+<settingsTab name="Cortex Tweaks">
 
 	<settingsPane description="This script will manipulate many kernel settings, based on chosen STweaks profile + settings and on screen state (ON or OFF) and we call it CortexBrain. To reset the kernel-settings, after you disable a tweak, you must reboot!" name="CortexBrain Tweaks">
 
