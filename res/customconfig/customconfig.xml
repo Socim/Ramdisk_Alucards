@@ -24,6 +24,8 @@
 
 		<checkbox description="Disabling GENTLE_FAIR_SLEEPERS may give you better UI responsiveness." name="GENTLE_FAIR_SLEEPERS" action="generic01 /sys/kernel/sched/gentle_fair_sleepers" label="GENTLE_FAIR_SLEEPERS"/>
 
+		<checkbox description="Enable ARCH_POWER." name="ARCH_POWER" action="generic01 /sys/kernel/sched/arch_power" label="ARCH_POWER"/>
+
 		<seekBar description="Sets the sched_mc value which changes the cpu scheduler behaviour for multi-cpu systems. 0 is kernel's default value which turns sched_mc off. Setting it to 1 means that the first core will be tried to be loaded more and setting it to 2 will bias task wake-ups to semi-idle cpu package for power savings. (default: 2)" name="sched_mc" action="generic /sys/devices/system/cpu/sched_mc_power_savings" unit="" min="0" reversed="false" step="1" max="2"/>
 
 		<seekBar description="Maximum CPU speed while using GPS. (Default: 1890.000 kHz)." name="scaling_max_gps_freq" action="genericfreq /sys/kernel/cpufreq_limit_manager/scaling_max_gps_freq" unit="kHz" min="810000" reversed="false" step="108000" max="1890000"/>
@@ -131,11 +133,31 @@
 
 		<seekBar description="When current freq is greater than freq_for_responsiviness_max, freq_step_dec will be equal to freq_step_dec_at_max_freq. (Only for Nightmare). (Default: 1890.000 kHz)" name="freq_for_responsiveness_max" action="generic_cortex /tmp/freq_for_responsiveness_max" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Until freq_responsiveness, Up Threshold considered for sampling load is inc_cpu_load_at_min_freq. Also during the part where CPU is at maximum load frequency, governor need to find the optimal frequency as the next frequency - which should not trigger up_threshold in the next sampling. When such a frequency_next is found to be a) less than freq_responsiveness b) will not trigger down_threshold in the next sample, then the optimal frequency is set to freq_responsiveness. (Only for Alucard) (Default: 810.000 kHz)" name="freq_responsiveness" action="generic_cortex /tmp/freq_responsiveness" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
+		<seekBar description="Until freq_responsiveness, Up Threshold considered for sampling load is inc_cpu_load_at_min_freq. Also during the part where CPU is at maximum load frequency, governor need to find the optimal frequency as the next frequency - which should not trigger up_threshold in the next sampling. When such a frequency_next is found to be a) less than freq_responsiveness b) will not trigger down_threshold in the next sample, then the optimal frequency is set to freq_responsiveness. (Only for Alucard) (Default: 1134.000 kHz)" name="freq_responsiveness" action="generic_cortex /tmp/freq_responsiveness" unit="kHz" min="378000" reversed="false" step="108000" max="1890000"/>
 
-		<seekBar description="Governor should increase CPU frequency by n step each time CPU load reaches inc_cpu_load. (Only for Alucard) (Default: 2)" name="pump_inc_step" action="generic_cortex /tmp/pump_inc_step" unit="step" min="1" reversed="false" step="1" max="3"/>
+		<seekBar description="Governor should increase CPU0 frequency by n step each time CPU load reaches inc_cpu_load_at_min_freq. (Only for Alucard) (Default: 2)" name="pump_inc_step_at_min_freq_1" action="generic_cortex /tmp/pump_inc_step_at_min_freq_1" unit="step" min="1" reversed="false" step="1" max="3"/>
 
-		<seekBar description="Governor should decrease CPU frequency by n step each time CPU load reaches dec_cpu_load. (Only for Alucard) (Default: 1)" name="pump_dec_step" action="generic_cortex /tmp/pump_dec_step" unit="step" min="1" reversed="false" step="1" max="3"/>
+		<seekBar description="Governor should increase CPU1 frequency by n step each time CPU load reaches inc_cpu_load_at_min_freq. (Only for Alucard) (Default: 2)" name="pump_inc_step_at_min_freq_2" action="generic_cortex /tmp/pump_inc_step_at_min_freq_2" unit="step" min="1" reversed="false" step="1" max="3"/>
+
+		<seekBar description="Governor should increase CPU2 frequency by n step each time CPU load reaches inc_cpu_load_at_min_freq. (Only for Alucard) (Default: 2)" name="pump_inc_step_at_min_freq_3" action="generic_cortex /tmp/pump_inc_step_at_min_freq_3" unit="step" min="1" reversed="false" step="1" max="3"/>
+
+		<seekBar description="Governor should increase CPU3 frequency by n step each time CPU load reaches inc_cpu_load_at_min_freq. (Only for Alucard) (Default: 2)" name="pump_inc_step_at_min_freq_4" action="generic_cortex /tmp/pump_inc_step_at_min_freq_4" unit="step" min="1" reversed="false" step="1" max="3"/>
+
+		<seekBar description="Governor should increase CPU0 frequency by n step each time CPU load reaches inc_cpu_load. (Only for Alucard) (Default: 2)" name="pump_inc_step_1" action="generic_cortex /tmp/pump_inc_step_1" unit="step" min="1" reversed="false" step="1" max="3"/>
+
+		<seekBar description="Governor should increase CPU1 frequency by n step each time CPU load reaches inc_cpu_load. (Only for Alucard) (Default: 2)" name="pump_inc_step_2" action="generic_cortex /tmp/pump_inc_step_2" unit="step" min="1" reversed="false" step="1" max="3"/>
+
+		<seekBar description="Governor should increase CPU2 frequency by n step each time CPU load reaches inc_cpu_load. (Only for Alucard) (Default: 2)" name="pump_inc_step_3" action="generic_cortex /tmp/pump_inc_step_3" unit="step" min="1" reversed="false" step="1" max="3"/>
+
+		<seekBar description="Governor should increase CPU3 frequency by n step each time CPU load reaches inc_cpu_load. (Only for Alucard) (Default: 2)" name="pump_inc_step_4" action="generic_cortex /tmp/pump_inc_step_4" unit="step" min="1" reversed="false" step="1" max="3"/>
+
+		<seekBar description="Governor should decrease CPU0 frequency by n step each time CPU load reaches dec_cpu_load. (Only for Alucard) (Default: 1)" name="pump_dec_step_1" action="generic_cortex /tmp/pump_dec_step_1" unit="step" min="1" reversed="false" step="1" max="3"/>
+
+		<seekBar description="Governor should decrease CPU1 frequency by n step each time CPU load reaches dec_cpu_load. (Only for Alucard) (Default: 1)" name="pump_dec_step_2" action="generic_cortex /tmp/pump_dec_step_2" unit="step" min="1" reversed="false" step="1" max="3"/>
+
+		<seekBar description="Governor should decrease CPU2 frequency by n step each time CPU load reaches dec_cpu_load. (Only for Alucard) (Default: 1)" name="pump_dec_step_3" action="generic_cortex /tmp/pump_dec_step_3" unit="step" min="1" reversed="false" step="1" max="3"/>
+
+		<seekBar description="Governor should decrease CPU3 frequency by n step each time CPU load reaches dec_cpu_load. (Only for Alucard) (Default: 1)" name="pump_dec_step_4" action="generic_cortex /tmp/pump_dec_step_4" unit="step" min="1" reversed="false" step="1" max="3"/>
 
 		<seekBar description="Defines how much as a percentage of maximum frequency, governor should increase CPU frequency each time CPU load reaches inc_cpu_load_at_min_freq. (Only for nightmare). (Default: 30%)" name="freq_step_at_min_freq" action="generic_cortex /tmp/freq_step_at_min_freq" unit="%" min="5" reversed="false" step="1" max="100"/>
 
@@ -683,10 +705,11 @@
 
 		<button description="Click to see if the CortexBrain-Background-Process is running or not." name="Check Background-Process" action="push-actions/cortexbrain_background_process_check" label="CHECK SERVICE"/>
 
-		<spinner description="Control android logger logcat. If you set it to AUTO, then you will have logs only on screen is on. When screen will be off, logger will be disabled to save battery. If you set DEBUG, it will be working no matter what! If set to DISABLED, logging will be off, no matter what. If USB or Charger is connected and logger is set to AUTO, logging will not be disabled so we can debug. !!! Depends on CortexBrain-Background-Process !!!" name="Android Logger control" action="android_logger">
-			<spinnerItem name="AUTO" value="auto"/> 
-			<spinnerItem name="DEBUG" value="debug"/> 
-			<spinnerItem name="DISABLED" value="disabled"/> 
+		<spinner description="Enable or Disable Android Additional Logs and LOGCAT. you can DISABLE always to save Power! or leave default, ON when screen ON, and OFF when screen OFF" name="Android Logcat Logger" action="android_logger">
+			<spinnerItem name="Always Enabled" value="0"/>
+			<spinnerItem name="OFF when screen is OFF" value="1"/>
+			<spinnerItem name="Always Disabled" value="2"/>
+			<spinnerItem name="Debug" value="3"/>
 		</spinner>
 
 		<checkbox description="Enable or Disable the DATA turns off while screen is off function. !!! Depends on CortexBrain-Background-Process !!!" name="Auto-DATA" action="generic_cortex /tmp/cortexbrain_auto_tweak_mobile" label="Force Auto-Data"/>
