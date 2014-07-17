@@ -1,38 +1,188 @@
 #!/sbin/busybox sh
 
+##############################################################################
+Get_File(){
+##############################################################################
+  local url_file=$1
+  
+  ALL_OK=0
+  $ECHO "Downloading Ad Blocker..."
+  $RM -f $WGET_FILE 2>/dev/null
+  $RM -f $ERR_FILE 2>/dev/null
+  
+  $WGET $url_file -O $WGET_FILE 2>$ERR_FILE
+  if [ -s $WGET_FILE ]
+  then
+    $ECHO "Applying Ad Blocker..."
+    $UNZIP -p $WGET_FILE HOSTS > $HOST_FILE
+    $CHMOD 644 $HOST_FILE
+    $DOS2UNIX -u $HOST_FILE
+	ALL_OK=1
+  else
+    $ECHO "Download failed!"
+  fi
+}
 
-WGET_CHECK1=`ls -la /system/xbin/wget | wc -l`;
-WGET_CHECK2=`ls -la /system/bin/wget | wc -l`;
+##############################################################################
+# Main()
+##############################################################################
 
-if [ "$WGET_CHECK1" -eq "1" ] || [ "$WGET_CHECK2" -eq "1" ]; then
+echo "Ad Blocker"
+echo "----------"
 
-	mount -o remount,rw /;
-	mount -o remount,rw /system;
+BUSYBOX=""
+# Check if $BUSYBOX has been installed
+for i in /tmp /system/xbin /sbin /system/bin
+do
+  if [ -e $i/busybox ]
+  then
+    BUSYBOX=$i/busybox
+    break
+  fi
+done
 
-	TMPFILE=$(mktemp -t);
-	HOST_FILE="/system/etc/hosts";
-
-	DNS1=`getprop net.dns1`;
-	DNS2=`getprop net.rmnet0.dns1`;
-	DNS3=`getprop net.rmnet0.dns2`;
-
-	echo "nameserver 8.8.8.8" > /system/etc/resolv.conf;
-	echo "nameserver 4.4.8.8" >> /system/etc/resolv.conf;
-	echo "nameserver $DNS1" >> /system/etc/resolv.conf;
-	echo "nameserver $DNS2" >> /system/etc/resolv.conf;
-	echo "nameserver $DNS3" >> /system/etc/resolv.conf;
-
-	TESTCONNECTION=`wget http://www.google.com -O $TMPFILE > /dev/null 2>&1`;
-	if [ $? != 0 ]; then
-		echo "Problem: no internet connection! connect and try again";
-	else
-		wget http://winhelp2002.mvps.org/hosts.zip -O $TMPFILE > /dev/null 2>&1;
-		unzip -p $TMPFILE HOSTS > $HOST_FILE;
-		chmod 644 $HOST_FILE;
-		dos2unix -u /system/etc/hosts;
-		echo "AD Blocker: installed to /system/etc/hosts, reboot to use.";
-	fi;
-		rm -f $TMPFILE;
+# Set all the required the commands with the correct path to busybox
+AWK="$BUSYBOX awk"
+BASENAME="$BUSYBOX basename"
+CAT="$BUSYBOX cat"
+CHMOD="$BUSYBOX chmod"
+CP="$BUSYBOX cp"
+CUT="$BUSYBOX cut"
+DATE="$BUSYBOX date"
+DD="$BUSYBOX dd"
+DF="$BUSYBOX df"
+DIRNAME="$BUSYBOX dirname"
+DOS2UNIX="$BUSYBOX dos2unix"
+DU="$BUSYBOX du"
+ECHO="$BUSYBOX echo"
+EXPR="$BUSYBOX expr"
+FIND="$BUSYBOX find"
+GREP="$BUSYBOX grep"
+HEAD="$BUSYBOX head"
+LS="$BUSYBOX ls"
+LN="$BUSYBOX ln"
+MKDIR="$BUSYBOX mkdir"
+MKTEMP="$BUSYBOX mktemp"
+MOUNT="$BUSYBOX mount"
+MV="$BUSYBOX mv"
+PIDOF="$BUSYBOX pidof"
+if [ -x /system/bin/ping ]
+then
+  PING="/system/bin/ping"
 else
-	echo "Your BusyBox is not supported! Update to latest";
-fi;
+  PING="$BUSYBOX ping"
+fi
+PS="$BUSYBOX ps"
+PWD="$BUSYBOX pwd"
+REV="$BUSYBOX rev"
+RM="$BUSYBOX rm"
+SED="$BUSYBOX sed"
+SLEEP="$BUSYBOX sleep"
+TAIL="$BUSYBOX tail"
+TOUCH="$BUSYBOX touch"
+TR="$BUSYBOX tr"
+UNMOUNT="$BUSYBOX unmount"
+UNZIP="$BUSYBOX unzip"
+WC="$BUSYBOX wc"
+WGET="$BUSYBOX wget"
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+if [ "$BUSYBOX" ]
+then
+  $ECHO "Busybox: $BUSYBOX"
+else
+  echo "Your BusyBox is not supported"
+  exit 1
+fi
+  
+mount -o remount,rw /
+mount -o remount,rw /system
+
+WGET_FILE=$($MKTEMP -t).zip
+ERR_FILE=$($MKTEMP -t)
+HOST_FILE=/system/etc/hosts
+CONF_FILE=/system/etc/resolv.conf
+
+DNS1=`getprop net.dns1`
+DNS2=`getprop net.rmnet0.dns1`
+DNS3=`getprop net.rmnet0.dns2`
+
+# Set up the dns resolve file
+$ECHO "Configuring DNS resolutions..."
+$ECHO "nameserver 8.8.8.8" > $CONF_FILE
+$ECHO "nameserver 8.8.4.4" >> $CONF_FILE
+for i in $DNS1 $DNS2 $DNS3
+do 
+  if [ "$i" ]
+  then      
+    $ECHO "nameserver $i" >> $CONF_FILE
+  fi
+done
+$CHMOD 644 $CONF_FILE
+
+$RM -f $WGET_FILE 2>/dev/null
+domain="www.winhelp2002.mvps.org"	
+zip_url="$domain/hosts.zip"
+
+# See if the domain is in the host file
+# If not then temporarily add it
+add_domain=0
+if [ -e $HOST_FILE ]
+then
+  $GREP -i $domain $HOST_FILE 1>/dev/null 2>/dev/null
+  if [ $? -ne 0 ]
+  then
+    add_domain=1
+  fi
+else
+  add_domain=1
+fi
+if [ $add_domain -eq 1 ]
+then
+  # It is not in the host file
+  # Get this host's ip address
+  ipaddr=`$PING -c 1 $domain | $SED -n 's@^.*(\([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\).*$@\1@p' | $HEAD -1`
+  if [ "$ipaddr" ]
+  then
+	# Temporarily add this domain's ip address to the hosts file
+	$ECHO "Adding Ad Blocker domain to hosts:"
+	$ECHO "$ipaddr $domain"
+	$RM -f $HOST_FILE.bak 2>/dev/null
+	if [ -e $HOST_FILE ]
+	then
+	  $CP $HOST_FILE $HOST_FILE.bak
+	fi
+	$ECHO >> $HOST_FILE
+	$ECHO "# $domain added by Ad Blocker vvvvv" >> $HOST_FILE
+	$ECHO "$ipaddr $domain">>$HOST_FILE
+	$ECHO "# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" >> $HOST_FILE
+	$SLEEP 1
+  fi
+fi
+if [ -e $HOST_FILE ]
+then
+  $GREP -i $domain $HOST_FILE 1>/dev/null 2>/dev/null
+  if [ $? -eq 0 ]
+  then
+    # Its now in the host file
+    # Attempt a wget
+    Get_File $zip_url
+  else
+    $ECHO "Unable to obtain IP-Address for $domain"
+  fi
+else
+  $ECHO "Unable to find $HOST_FILE"
+fi
+$RM -f $HOST_FILE.bak 2>/dev/null
+
+if [ $ALL_OK -eq 1 ]
+then
+  $ECHO "Installed new $HOST_FILE"
+  $ECHO "Reboot to apply."
+else
+  $ECHO "No internet connection"
+  $ECHO "Please try again!"
+fi
+
+$RM -f $WGET_FILE 2>/dev/null
+$RM -f $ERR_FILE 2>/dev/null
