@@ -105,26 +105,24 @@ $BB chmod 666 /sys/module/lowmemorykiller/parameters/minfree;
 
 # make sure we own the device nodes
 # $BB chown system /sys/devices/system/cpu/cpufreq/alucard/*
-$BB chown system /sys/devices/system/cpu/cpu0/cpufreq/*;
-$BB chown system /sys/devices/system/cpu/cpu1/online;
-$BB chown system /sys/devices/system/cpu/cpu2/online;
-$BB chown system /sys/devices/system/cpu/cpu3/online;
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor_all_cpus;
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus;
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_all_cpus;
-$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq;
-$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/stats/*;
-$BB chmod 666 /sys/devices/system/cpu/cpu1/online;
-$BB chmod 666 /sys/devices/system/cpu/cpu2/online;
-$BB chmod 666 /sys/devices/system/cpu/cpu3/online;
-$BB chmod 666 /sys/module/msm_thermal/parameters/*;
-$BB chmod 666 /sys/module/msm_thermal/core_control/enabled;
-$BB chmod 666 /sys/kernel/intelli_plug/*;
-$BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk;
-$BB chmod 666 /sys/devices/platform/kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor;
+$BB chown system /sys/devices/system/cpu/cpu0/cpufreq/*
+$BB chown system /sys/devices/system/cpu/cpu1/online
+$BB chown system /sys/devices/system/cpu/cpu2/online
+$BB chown system /sys/devices/system/cpu/cpu3/online
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+$BB chmod 666 /sys/devices/system/cpu/cpufreq/all_cpus/*
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq
+$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/stats/*
+$BB chmod 666 /sys/devices/system/cpu/cpu1/online
+$BB chmod 666 /sys/devices/system/cpu/cpu2/online
+$BB chmod 666 /sys/devices/system/cpu/cpu3/online
+$BB chmod 666 /sys/module/msm_thermal/parameters/*
+$BB chmod 666 /sys/module/msm_thermal/core_control/enabled
+$BB chmod 666 /sys/kernel/intelli_plug/*
+$BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk
+$BB chmod 666 /sys/devices/platform/kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor
 
 $BB chown -R root:root /data/property;
 $BB chmod -R 0700 /data/property;
@@ -136,8 +134,8 @@ echo "ondemand" > /sys/devices/platform/kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzon
 echo 450000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk;
 
 # set min max boot freq to default.
-echo "1890000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq_all_cpus;
-echo "378000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq_all_cpus;
+echo "1890000" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_all_cpus;
+echo "378000" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_all_cpus;
 
 # Fix ROM dev wrong sets.
 setprop persist.adb.notify 0;
@@ -232,7 +230,7 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs;
 
 (
 	# set alucard as default gov
-	echo "alucard" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor_all_cpus;
+	echo "alucard" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_governor_all_cpus;
 
 	if [ "$stweaks_boot_control" == "yes" ]; then
 		# stop uci.sh from running all the PUSH Buttons in stweaks on boot
